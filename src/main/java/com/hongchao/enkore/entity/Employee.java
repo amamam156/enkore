@@ -3,11 +3,13 @@ package com.hongchao.enkore.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class Employee implements Serializable {
+public class Employee implements Serializable
+{
 
     private static final long serialVersionUID = 1L;
 
@@ -24,6 +26,8 @@ public class Employee implements Serializable {
     private String sex;
 
     private String idNumber;
+
+    private String address;
 
     private Integer status;
 

@@ -15,6 +15,16 @@ function isCellPhone (val) {
   }
 }
 
+function checkAddress (rule, value, callback) {
+    if (value == "") {
+      callback(new Error("请输入地址"))
+    } else if (value.length > 12) {
+      callback(new Error("地址长度应是1-12"))
+    } else {
+      callback()
+    }
+}
+
 //校验账号
 function checkUserName (rule, value, callback){
   if (value == "") {
@@ -60,3 +70,5 @@ function validID (rule,value,callback) {
     callback(new Error('身份证号码不正确'))
   }
 }
+
+

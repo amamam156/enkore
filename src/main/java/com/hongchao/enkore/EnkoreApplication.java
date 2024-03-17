@@ -12,7 +12,7 @@ public class EnkoreApplication
 {
     public static void main(String[] args)
     {
-        SpringApplication.run(EnkoreApplication.class,args);
+        SpringApplication.run(EnkoreApplication.class, args);
         log.info("Program Start successful...");
     }
 }
