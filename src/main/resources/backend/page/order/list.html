@@ -11,33 +11,39 @@
     <link rel="stylesheet" href="../../styles/page.css"/>
     <style>
         .search-btn {
-          margin-left: 20px;
+            margin-left: 20px;
         }
-        .tableBar{
-          justify-content: flex-start !important;
+
+        .tableBar {
+            justify-content: flex-start !important;
         }
-        .info-box{
-          margin: -15px -44px 20px;
+
+        .info-box {
+            margin: -15px -44px 20px;
         }
-        .info-box .item-box{
-          display: flex;
-          height: 20px;
-          line-height: 20px;
-          font-size: 14px;
-          font-weight: 400;
-          color: #666666;
-          text-align: left;
-          margin-bottom: 14px;
+
+        .info-box .item-box {
+            display: flex;
+            height: 20px;
+            line-height: 20px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #666666;
+            text-align: left;
+            margin-bottom: 14px;
         }
-        .info-box .item-box:last-child{
-          margin-bottom: 0;
+
+        .info-box .item-box:last-child {
+            margin-bottom: 0;
         }
-        .info-box .item-box .label{
-          width: 96px;
+
+        .info-box .item-box .label {
+            width: 96px;
         }
-        .info-box .item-box .des{
-          flex: 1;
-          color: #333333;
+
+        .info-box .item-box .des {
+            flex: 1;
+            color: #333333;
         }
     </style>
 </head>
@@ -183,118 +189,124 @@
 <script src="../../api/order.js"></script>
 <script>
     new Vue({
-      el: '#order-app',
-      data() {
-        return {
-           input: '',
-           orderTime: '',
-           beginTime: '',
-           endTime: '',
-           counts: 0,
-           page: 1,
-           pageSize: 10,
-           tableData : [],
-           dialogVisible: false,
-           diaForm: {},
-           loading: false
-        }
-      },
-      computed: {},
-      watch:{
-        orderTime (val) {
-          if (val && val.length >= 2) {
-            this.beginTime = val[0]
-            this.endTime = val[1]
-          } else {
-            this.beginTime = ''
-            this.endTime = ''
-          }
-        }
-      },
-      created() {
-        this.init()
-      },
-      mounted() {
-        // this.loading = false
-      },
-      methods: {
-        async init () {
-          getOrderDetailPage({ page: this.page, pageSize: this.pageSize, number: this.input || undefined, beginTime: this.beginTime || undefined, endTime: this.endTime || undefined }).then(res => {
-            if (String(res.code) === '1') {
-              this.tableData = res.data.records || []
-              this.counts = res.data.total
+        el: '#order-app',
+        data() {
+            return {
+                input: '',
+                orderTime: '',
+                beginTime: '',
+                endTime: '',
+                counts: 0,
+                page: 1,
+                pageSize: 10,
+                tableData: [],
+                dialogVisible: false,
+                diaForm: {},
+                loading: false
             }
-          }).catch(err => {
-            this.$message.error('请求出错了：' + err)
-          })
         },
-        handleQuery() {
-          this.page = 1;
-          this.init();
-        },
-         getOrderType (row) {
-          let str = ''
-          switch(row.status){
-              case 1:
-                  str =  '待付款'
-              break;
-              case 2:
-                  str =  '正在派送'
-              break;
-              case 3:
-                  str =  '已派送'
-              break;
-              case 4:
-                  str =  '已完成'
-              break;
-              case 5:
-                  str =  '已取消'
-              break;
-
-          }
-          return str
-        },
-        // 查看详情
-        goDetail (row) {
-          this.diaForm = {}
-          this.dialogVisible = true
-          this.diaForm = { ...row }
-        },
-        // 取消，派送，完成
-        cancelOrDeliveryOrComplete (status, id) {
-          this.$confirm('确认更改该订单状态?', '提示', {
-              'confirmButtonText': '确定',
-              'cancelButtonText': '取消',
-              'type': 'warning'
-            }).then(() => {
-              editOrderDetail(params).then(res => {
-                if (res.code === 1) {
-                  this.$message.success(status === 3 ? '订单已派送' : '订单已完成')
-                  this.init()
+        computed: {},
+        watch: {
+            orderTime(val) {
+                if (val && val.length >= 2) {
+                    this.beginTime = val[0]
+                    this.endTime = val[1]
                 } else {
-                  this.$message.error(res.msg || '操作失败')
+                    this.beginTime = ''
+                    this.endTime = ''
                 }
-              }).catch(err => {
-                this.$message.error('请求出错了：' + err)
-              })
-          })
-          const params = {
-            status,
-            id
-          }
+            }
         },
-        handleClose () {
-          this.dialogVisible = false
+        created() {
+            this.init()
         },
-        handleSizeChange (val) {
-          this.pageSize = val
-          this.init()
+        mounted() {
+            // this.loading = false
         },
-        handleCurrentChange (val) {
-          this.page = val
-          this.init()
+        methods: {
+            async init() {
+                getOrderDetailPage({
+                    page: this.page,
+                    pageSize: this.pageSize,
+                    number: this.input || undefined,
+                    beginTime: this.beginTime || undefined,
+                    endTime: this.endTime || undefined
+                }).then(res => {
+                    if (String(res.code) === '1') {
+                        this.tableData = res.data.records || []
+                        this.counts = res.data.total
+                    }
+                }).catch(err => {
+                    this.$message.error('请求出错了：' + err)
+                })
+            },
+            handleQuery() {
+                this.page = 1;
+                this.init();
+            },
+            getOrderType(row) {
+                let str = ''
+                switch (row.status) {
+                    case 1:
+                        str = '待付款'
+                        break;
+                    case 2:
+                        str = '正在派送'
+                        break;
+                    case 3:
+                        str = '已派送'
+                        break;
+                    case 4:
+                        str = '已完成'
+                        break;
+                    case 5:
+                        str = '已取消'
+                        break;
+
+                }
+                return str
+            },
+            // 查看详情
+            goDetail(row) {
+                this.diaForm = {}
+                this.dialogVisible = true
+                this.diaForm = {...row}
+            },
+            // 取消，派送，完成
+            cancelOrDeliveryOrComplete(status, id) {
+                this.$confirm('确认更改该订单状态?', '提示', {
+                    'confirmButtonText': '确定',
+                    'cancelButtonText': '取消',
+                    'type': 'warning'
+                }).then(() => {
+                    editOrderDetail(params).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success(status === 3 ? '订单已派送' : '订单已完成')
+                            this.init()
+                        } else {
+                            this.$message.error(res.msg || '操作失败')
+                        }
+                    }).catch(err => {
+                        this.$message.error('请求出错了：' + err)
+                    })
+                })
+                const params = {
+                    status,
+                    id
+                }
+            },
+            handleClose() {
+                this.dialogVisible = false
+            },
+            handleSizeChange(val) {
+                this.pageSize = val
+                this.init()
+            },
+            handleCurrentChange(val) {
+                this.page = val
+                this.init()
+            }
         }
-      }
     })
 </script>
 </body>

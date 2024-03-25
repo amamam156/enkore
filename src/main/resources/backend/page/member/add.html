@@ -110,122 +110,122 @@
 <script src="../../js/index.js"></script>
 <script>
     new Vue({
-      el: '#member-add-app',
-      data() {
-        return {
-          id: '',
-          actionType : '',
-          ruleForm : {
-              'name': '',
-              'phone': '',
-              'sex': '男',
-              'idNumber': '',
-              'address': '',
-              username: ''
-          }
-        }
-      },
-      computed: {
-        rules () {
-          return {
-            //账号
-            username: [
-              {
-                required: true, 'validator': checkUserName, trigger: 'blur'
-              }
-            ],
-            //姓名
-            name: [{ required: true, 'validator': checkName, 'trigger': 'blur' }],
-            'phone': [{ 'required': true, 'validator': checkPhone, 'trigger': 'blur' }],
-            'idNumber': [{ 'required': true, 'validator': validID, 'trigger': 'blur' }],
-            'address': [{ 'required': true, 'validator': checkAddress, 'trigger': 'blur' }]
-          }
-        }
-      },
-      created() {
-        this.id = requestUrlParam('id')
-        this.actionType = this.id ? 'edit' : 'add'
-        if (this.id) {
-          this.init()
-        }
-      },
-      mounted() {
-      },
-      methods: {
-        async init () {
-          queryEmployeeById(this.id).then(res => {
-            console.log(res)
-            if (String(res.code) === '1') {
-              console.log(res.data)
-              this.ruleForm = res.data
-              this.ruleForm.sex = res.data.sex === '0' ? '女' : '男'
-              // this.ruleForm.password = ''
-            } else {
-              this.$message.error(res.msg || '操作失败')
-            }
-          })
-        },
-        submitForm (formName, st) {
-          this.$refs[formName].validate((valid) => {
-            if (valid) {
-              if (this.actionType === 'add') {
-                const params = {
-                  ...this.ruleForm,
-                  sex: this.ruleForm.sex === '女' ? '0' : '1'
+        el: '#member-add-app',
+        data() {
+            return {
+                id: '',
+                actionType: '',
+                ruleForm: {
+                    'name': '',
+                    'phone': '',
+                    'sex': '男',
+                    'idNumber': '',
+                    'address': '',
+                    username: ''
                 }
-                addEmployee(params).then(res => {
-                  if (res.code === 1) {
-                    this.$message.success('员工添加成功！')
-                    if (!st) {
-                      this.goBack()
+            }
+        },
+        computed: {
+            rules() {
+                return {
+                    //账号
+                    username: [
+                        {
+                            required: true, 'validator': checkUserName, trigger: 'blur'
+                        }
+                    ],
+                    //姓名
+                    name: [{required: true, 'validator': checkName, 'trigger': 'blur'}],
+                    'phone': [{'required': true, 'validator': checkPhone, 'trigger': 'blur'}],
+                    'idNumber': [{'required': true, 'validator': validID, 'trigger': 'blur'}],
+                    'address': [{'required': true, 'validator': checkAddress, 'trigger': 'blur'}]
+                }
+            }
+        },
+        created() {
+            this.id = requestUrlParam('id')
+            this.actionType = this.id ? 'edit' : 'add'
+            if (this.id) {
+                this.init()
+            }
+        },
+        mounted() {
+        },
+        methods: {
+            async init() {
+                queryEmployeeById(this.id).then(res => {
+                    console.log(res)
+                    if (String(res.code) === '1') {
+                        console.log(res.data)
+                        this.ruleForm = res.data
+                        this.ruleForm.sex = res.data.sex === '0' ? '女' : '男'
+                        // this.ruleForm.password = ''
                     } else {
-                      this.ruleForm = {
-                        username: '',
-                        'name': '',
-                        'phone': '',
-                        // 'password': '',
-                        // 'rePassword': '',/
-                        'sex': '男',
-                        'idNumber': '',
-                        'address': ''
-                      }
+                        this.$message.error(res.msg || '操作失败')
                     }
-                  } else {
-                    this.$message.error(res.msg || '操作失败')
-                  }
-                }).catch(err => {
-                  this.$message.error('请求出错了：' + err)
                 })
-              } else {
-                const params = {
-                  ...this.ruleForm,
-                  sex: this.ruleForm.sex === '女' ? '0' : '1'
-                }
-                editEmployee(params).then(res => {
-                  if (res.code === 1) {
-                    this.$message.success('员工信息修改成功！')
-                    this.goBack()
-                  } else {
-                    this.$message.error(res.msg || '操作失败')
-                  }
-                }).catch(err => {
-                  this.$message.error('请求出错了：' + err)
+            },
+            submitForm(formName, st) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        if (this.actionType === 'add') {
+                            const params = {
+                                ...this.ruleForm,
+                                sex: this.ruleForm.sex === '女' ? '0' : '1'
+                            }
+                            addEmployee(params).then(res => {
+                                if (res.code === 1) {
+                                    this.$message.success('员工添加成功！')
+                                    if (!st) {
+                                        this.goBack()
+                                    } else {
+                                        this.ruleForm = {
+                                            username: '',
+                                            'name': '',
+                                            'phone': '',
+                                            // 'password': '',
+                                            // 'rePassword': '',/
+                                            'sex': '男',
+                                            'idNumber': '',
+                                            'address': ''
+                                        }
+                                    }
+                                } else {
+                                    this.$message.error(res.msg || '操作失败')
+                                }
+                            }).catch(err => {
+                                this.$message.error('请求出错了：' + err)
+                            })
+                        } else {
+                            const params = {
+                                ...this.ruleForm,
+                                sex: this.ruleForm.sex === '女' ? '0' : '1'
+                            }
+                            editEmployee(params).then(res => {
+                                if (res.code === 1) {
+                                    this.$message.success('员工信息修改成功！')
+                                    this.goBack()
+                                } else {
+                                    this.$message.error(res.msg || '操作失败')
+                                }
+                            }).catch(err => {
+                                this.$message.error('请求出错了：' + err)
+                            })
+                        }
+                    } else {
+                        console.log('error submit!!')
+                        return false
+                    }
                 })
-              }
-            } else {
-              console.log('error submit!!')
-              return false
+            },
+            goBack() {
+                window.parent.menuHandle({
+                    id: '2',
+                    url: '/backend/page/member/list.html',
+                    name: '员工管理'
+                }, false)
             }
-          })
-        },
-        goBack(){
-          window.parent.menuHandle({
-            id: '2',
-            url: '/backend/page/member/list.html',
-            name: '员工管理'
-          },false)
         }
-      }
     })
 </script>
 </body>

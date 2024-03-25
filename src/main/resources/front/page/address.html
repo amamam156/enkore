@@ -58,96 +58,97 @@
 <script src="./../js/request.js"></script>
 <script>
     new Vue({
-        el:"#address",
-        data(){
+        el: "#address",
+        data() {
             return {
-                addressList:[
-                //     {
-                //     label:'公司',
-                //     detail:'金燕龙写字楼 4层电梯口fsdfdsfsdfsdfsssssssssssss（电梯可…）',
-                //     consignee:'周先生',//姓名
-                //     phone:18544445566,//手机号
-                //     isDefault:0,//是否是默认
-                // },
-                // {
-                //     label:'家',
-                //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
-                //     consignee:'周先生',//姓名
-                //     phone:18544445566,//手机号
-                //     isDefault:0,//是否是默认
-                // },
-                // {
-                //     label:'学校',
-                //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
-                //     consignee:'周先生',//姓名
-                //     phone:18544445566,//手机号
-                //     isDefault:0,//是否是默认
-                // },
-                // {
-                //     label:'公司',
-                //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
-                //     consignee:'周先生',//姓名
-                //     phone:18544445566,//手机号
-                //     isDefault:0,//是否是默认
-                // },
-                // {
-                //     label:'公司',
-                //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
-                //     consignee:'周先生',//姓名
-                //     phone:18544445566,//手机号
-                //     isDefault:0,//是否是默认
-                // },
-                // {
-                //     label:'公司',
-                //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
-                //     consignee:'周先生',//姓名
-                //     phone:18544445566,//手机号
-                //     isDefault:1,//是否是默认
-                // }
-            ],
+                addressList: [
+                    //     {
+                    //     label:'公司',
+                    //     detail:'金燕龙写字楼 4层电梯口fsdfdsfsdfsdfsssssssssssss（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:0,//是否是默认
+                    // },
+                    // {
+                    //     label:'家',
+                    //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:0,//是否是默认
+                    // },
+                    // {
+                    //     label:'学校',
+                    //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:0,//是否是默认
+                    // },
+                    // {
+                    //     label:'公司',
+                    //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:0,//是否是默认
+                    // },
+                    // {
+                    //     label:'公司',
+                    //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:0,//是否是默认
+                    // },
+                    // {
+                    //     label:'公司',
+                    //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:1,//是否是默认
+                    // }
+                ],
             }
         },
-        computed:{},
-        created(){
+        computed: {},
+        created() {
             this.initData()
         },
-        mounted(){},
-        methods:{
-            goBack(){
+        mounted() {
+        },
+        methods: {
+            goBack() {
                 history.go(-1)
             },
-            toAddressEditPage(item){
-                window.requestAnimationFrame(()=>{
-                    window.location.href= `/front/page/address-edit.html?id=${item.id}`
+            toAddressEditPage(item) {
+                window.requestAnimationFrame(() => {
+                    window.location.href = `/front/page/address-edit.html?id=${item.id}`
                 })
             },
-            toAddressCreatePage(){
-                window.requestAnimationFrame(()=>{
-                    window.location.href= '/front/page/address-edit.html'
+            toAddressCreatePage() {
+                window.requestAnimationFrame(() => {
+                    window.location.href = '/front/page/address-edit.html'
                 })
             },
-            async initData(){
+            async initData() {
                 const res = await addressListApi()
-                if(res.code === 1){
+                if (res.code === 1) {
                     this.addressList = res.data
-                }else{
+                } else {
                     this.$message.error(res.msg)
                 }
             },
-            async setDefaultAddress(item){
-                if(item.id){
-                    const res = await setDefaultAddressApi({id:item.id})
-                    if(res.code === 1){
-                    this.initData()
-                    }else{
+            async setDefaultAddress(item) {
+                if (item.id) {
+                    const res = await setDefaultAddressApi({id: item.id})
+                    if (res.code === 1) {
+                        this.initData()
+                    } else {
                         this.$message.error(res.msg)
                     }
                 }
             },
-            itemClick(item){
+            itemClick(item) {
                 const url = document.referrer
                 //表示是从订单页面跳转过来的
-                if(url.includes('order')){
+                if (url.includes('order')) {
                     this.setDefaultAddress(item)
                     history.go(-1)
                 }

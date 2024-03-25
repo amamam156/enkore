@@ -42,42 +42,43 @@
 <script src="./../js/request.js"></script>
 <script>
     new Vue({
-        el:"#pay_success",
-        data(){
+        el: "#pay_success",
+        data() {
             return {
-                finishTime:''
+                finishTime: ''
             }
         },
-        computed:{},
-        created(){
+        computed: {},
+        created() {
             this.getFinishTime()
         },
-        mounted(){},
-        methods:{
-            goBack(){
-                window.requestAnimationFrame(()=>{
+        mounted() {
+        },
+        methods: {
+            goBack() {
+                window.requestAnimationFrame(() => {
                     window.location.replace('/front/index.html')
                 })
             },
-            toOrderPage(){
-                window.requestAnimationFrame(()=>{
+            toOrderPage() {
+                window.requestAnimationFrame(() => {
                     window.location.replace('/front/page/order.html')
                 })
             },
-            toMainPage(){
-                window.requestAnimationFrame(()=>{
+            toMainPage() {
+                window.requestAnimationFrame(() => {
                     window.location.replace('/front/index.html')
                 })
             },
             //获取送达时间
-            getFinishTime(){
+            getFinishTime() {
                 let now = new Date()
-                let hour = now.getHours() +1
+                let hour = now.getHours() + 1
                 let minute = now.getMinutes()
-                if(hour.toString().length <2){
+                if (hour.toString().length < 2) {
                     hour = '0' + hour
                 }
-                if(minute.toString().length <2){
+                if (minute.toString().length < 2) {
                     minute = '0' + minute
                 }
                 this.finishTime = hour + ':' + minute

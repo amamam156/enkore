@@ -18,22 +18,22 @@
     <script src="https://a1.alicdn.com/oss/uploads/2018/12/26/a3f714d0-08e6-11e9-8a15-ebf944d7534c.js"></script>
     <style>
         .main .logo {
-          margin-top: 0;
-          height: auto;
+            margin-top: 0;
+            height: auto;
         }
 
         .main .logo a {
-          display: flex;
-          align-items: center;
+            display: flex;
+            align-items: center;
         }
 
         .main .logo .sub-title {
-          margin-left: 0.5em;
-          font-size: 22px;
-          color: #fff;
-          background: linear-gradient(-45deg, #3967FF, #B500FE);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+            margin-left: 0.5em;
+            font-size: 22px;
+            color: #fff;
+            background: linear-gradient(-45deg, #3967FF, #B500FE);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
@@ -337,19 +337,19 @@
         $('.tab-container .content:first').show()
 
         $('#tabs li').click(function (e) {
-          var tabContent = $('.tab-container .content')
-          var index = $(this).index()
+            var tabContent = $('.tab-container .content')
+            var index = $(this).index()
 
-          if ($(this).hasClass('active')) {
-            return
-          } else {
-            $('#tabs li').removeClass('active')
-            $(this).addClass('active')
+            if ($(this).hasClass('active')) {
+                return
+            } else {
+                $('#tabs li').removeClass('active')
+                $(this).addClass('active')
 
-            tabContent.hide().eq(index).fadeIn()
-          }
+                tabContent.hide().eq(index).fadeIn()
+            }
         })
-      })
+    })
 </script>
 </body>
 </html>

@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="../../styles/common.css"/>
     <link rel="stylesheet" href="../../styles/page.css"/>
     <style>
-        #member-app  .notAdmin::after{
-          border: 0 !important;
+        #member-app .notAdmin::after {
+            border: 0 !important;
 
         }
     </style>
@@ -112,90 +112,90 @@
 <script src="../../api/member.js"></script>
 <script>
     new Vue({
-      el: '#member-app',
-      data() {
-        return {
-           input: '',
-           counts: 0,
-           page: 1,
-           pageSize: 10,
-           tableData : [],
-           id : '',
-           status : '',
-        }
-      },
-      computed: {},
-      created() {
-        this.init()
-        this.user = JSON.parse(localStorage.getItem('userInfo')).username
-      },
-      mounted() {
-      },
-      methods: {
-        async init () {
-          const params = {
-            page: this.page,
-            pageSize: this.pageSize,
-            name: this.input ? this.input : undefined
-          }
-          await getMemberList(params).then(res => {
-            if (String(res.code) === '1') {
-              this.tableData = res.data.records || []
-              this.counts = res.data.total
+        el: '#member-app',
+        data() {
+            return {
+                input: '',
+                counts: 0,
+                page: 1,
+                pageSize: 10,
+                tableData: [],
+                id: '',
+                status: '',
             }
-          }).catch(err => {
-            this.$message.error('请求出错了：' + err)
-          })
         },
-        handleQuery() {
-          this.page = 1;
-          this.init();
+        computed: {},
+        created() {
+            this.init()
+            this.user = JSON.parse(localStorage.getItem('userInfo')).username
         },
-         // 添加
-        addMemberHandle (st) {
-          if (st === 'add'){
-            window.parent.menuHandle({
-              id: '2',
-              url: '/backend/page/member/add.html',
-              name: '添加员工'
-            },true)
-          } else {
-            window.parent.menuHandle({
-              id: '2',
-              url: '/backend/page/member/add.html?id='+st,
-              name: '修改员工'
-            },true)
-          }
+        mounted() {
         },
-        //状态修改
-        statusHandle (row) {
-          this.id = row.id
-          this.status = row.status
-          this.$confirm('确认调整该账号的状态?', '提示', {
-            'confirmButtonText': '确定',
-            'cancelButtonText': '取消',
-            'type': 'warning'
-            }).then(() => {
-            enableOrDisableEmployee({ 'id': this.id, 'status': !this.status ? 1 : 0 }).then(res => {
-              console.log('enableOrDisableEmployee',res)
-              if (String(res.code) === '1') {
-                this.$message.success('账号状态更改成功！')
-                this.handleQuery()
-              }
-            }).catch(err => {
-              this.$message.error('请求出错了：' + err)
-            })
-          })
-        },
-        handleSizeChange (val) {
-          this.pageSize = val
-          this.init()
-        },
-        handleCurrentChange (val) {
-          this.page = val
-          this.init()
+        methods: {
+            async init() {
+                const params = {
+                    page: this.page,
+                    pageSize: this.pageSize,
+                    name: this.input ? this.input : undefined
+                }
+                await getMemberList(params).then(res => {
+                    if (String(res.code) === '1') {
+                        this.tableData = res.data.records || []
+                        this.counts = res.data.total
+                    }
+                }).catch(err => {
+                    this.$message.error('请求出错了：' + err)
+                })
+            },
+            handleQuery() {
+                this.page = 1;
+                this.init();
+            },
+            // 添加
+            addMemberHandle(st) {
+                if (st === 'add') {
+                    window.parent.menuHandle({
+                        id: '2',
+                        url: '/backend/page/member/add.html',
+                        name: '添加员工'
+                    }, true)
+                } else {
+                    window.parent.menuHandle({
+                        id: '2',
+                        url: '/backend/page/member/add.html?id=' + st,
+                        name: '修改员工'
+                    }, true)
+                }
+            },
+            //状态修改
+            statusHandle(row) {
+                this.id = row.id
+                this.status = row.status
+                this.$confirm('确认调整该账号的状态?', '提示', {
+                    'confirmButtonText': '确定',
+                    'cancelButtonText': '取消',
+                    'type': 'warning'
+                }).then(() => {
+                    enableOrDisableEmployee({'id': this.id, 'status': !this.status ? 1 : 0}).then(res => {
+                        console.log('enableOrDisableEmployee', res)
+                        if (String(res.code) === '1') {
+                            this.$message.success('账号状态更改成功！')
+                            this.handleQuery()
+                        }
+                    }).catch(err => {
+                        this.$message.error('请求出错了：' + err)
+                    })
+                })
+            },
+            handleSizeChange(val) {
+                this.pageSize = val
+                this.init()
+            },
+            handleCurrentChange(val) {
+                this.page = val
+                this.init()
+            }
         }
-      }
     })
 </script>
 </body>

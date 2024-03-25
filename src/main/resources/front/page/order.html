@@ -72,93 +72,94 @@
 <script src="./../api/order.js"></script>
 <script>
     new Vue({
-        el:"#order",
-        data(){
+        el: "#order",
+        data() {
             return {
-                paging:{
-                    page:1,
-                    pageSize:5
+                paging: {
+                    page: 1,
+                    pageSize: 5
                 },
-                orderList:[],
-                loading:false,
-                finished:false
+                orderList: [],
+                loading: false,
+                finished: false
             }
         },
-        computed:{},
-        created(){
+        computed: {},
+        created() {
             this.initData()
         },
-        mounted(){},
-        methods:{
-            goBack(){
+        mounted() {
+        },
+        methods: {
+            goBack() {
                 const url = document.referrer
                 //表示是从订单页面跳转过来的
-                if(url.includes('success')){
-                    window.requestAnimationFrame(()=>{
-                            window.location.href= '/front/index.html'
+                if (url.includes('success')) {
+                    window.requestAnimationFrame(() => {
+                        window.location.href = '/front/index.html'
                     })
-                }else{
+                } else {
                     history.go(-1)
                 }
             },
-            initData(){
+            initData() {
                 this.getList()
             },
-            async getList(){
-                if(this.finished){
+            async getList() {
+                if (this.finished) {
                     this.loading = false;
                     return
                 }
                 const res = await orderPagingApi(this.paging)
-                if(res.code === 1){
+                if (res.code === 1) {
                     this.orderList.push(...res.data.records)
                     let records = res.data.records
-                    if(records && Array.isArray(records)){
-                        records.forEach(item=>{
+                    if (records && Array.isArray(records)) {
+                        records.forEach(item => {
                             let number = 0
-                            item.orderDetails.forEach(ele=>{
+                            item.orderDetails.forEach(ele => {
                                 number += ele.number
                             })
                             item.sumNum = number
                         })
                     }
                     this.loading = false;
-                    if(this.paging.page >= res.data.pages){
+                    if (this.paging.page >= res.data.pages) {
                         this.finished = true;
                     }
                     this.paging.page = this.paging.page + 1
-                }else{
-                    this.$notify({ type:'warning', message:res.msg});
+                } else {
+                    this.$notify({type: 'warning', message: res.msg});
                 }
             },
-            async addOrderAgain(order){
-                const res = await orderAgainApi({id:order.id})
-                if(res.code === 1){
-                    window.requestAnimationFrame(()=>{
-                        window.location.href= '/front/index.html'
+            async addOrderAgain(order) {
+                const res = await orderAgainApi({id: order.id})
+                if (res.code === 1) {
+                    window.requestAnimationFrame(() => {
+                        window.location.href = '/front/index.html'
                     })
-                }else{
-                    this.$notify({ type:'warning', message:res.msg});
+                } else {
+                    this.$notify({type: 'warning', message: res.msg});
                 }
             },
-            getStatus(status){
+            getStatus(status) {
                 let str = ''
-                switch(status){
+                switch (status) {
                     case 1:
-                        str =  '待付款'
-                    break;
+                        str = '待付款'
+                        break;
                     case 2:
-                        str =  '正在派送'
-                    break;
+                        str = '正在派送'
+                        break;
                     case 3:
-                        str =  '已派送'
-                    break;
+                        str = '已派送'
+                        break;
                     case 4:
-                        str =  '已完成'
-                    break;
+                        str = '已完成'
+                        break;
                     case 5:
-                        str =  '已取消'
-                    break;
+                        str = '已取消'
+                        break;
 
                 }
                 return str

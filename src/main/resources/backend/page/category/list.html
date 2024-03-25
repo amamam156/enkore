@@ -46,7 +46,7 @@
                     label="Category type"
             >
                 <template slot-scope="scope">
-                    <span>{{ scope.row.type == '1' ? 'food categories': 'meal category' }}</span>
+                    <span>{{ scope.row.type == '1' ? 'food categories' : 'meal category' }}</span>
                 </template>
             </el-table-column>
             <el-table-column
@@ -151,154 +151,158 @@
 <script src="../../api/category.js"></script>
 <script>
     new Vue({
-      el: '#category-app',
-      data() {
-        return {
-          action: '',
-          counts: 0,
-          page: 1,
-          pageSize: 10,
-          tableData: [],
-          type :'',
-          classData: {
-            'title': 'Add food category',
-            'dialogVisible': false,
-            'categoryId': '',
-            'name': '',
-            sort: ''
-          }
-        }
-      },
-      computed: {},
-      created() {
-        this.init()
-      },
-      mounted() {
-      },
-      methods: {
-        async init () {
-          await getCategoryPage({'page': this.page, 'pageSize': this.pageSize}).then(res => {
-            if (String(res.code) === '1') {
-              this.tableData = res.data.records
-              this.counts = Number(res.data.total)
-            } else {
-              this.$message.error(res.msg || 'operation failed !')
+        el: '#category-app',
+        data() {
+            return {
+                action: '',
+                counts: 0,
+                page: 1,
+                pageSize: 10,
+                tableData: [],
+                type: '',
+                classData: {
+                    'title': 'Add food category',
+                    'dialogVisible': false,
+                    'categoryId': '',
+                    'name': '',
+                    sort: ''
+                }
             }
-          }).catch(err => {
-            this.$message.error('An error occurred with the request：' + err)
-          })
         },
-        handleQuery() {
-          this.page = 1;
-          this.init();
+        computed: {},
+        created() {
+            this.init()
         },
-         // Add
-        addClass(st) {
-          if (st == 'class') {
-            this.classData.title = 'Add new food categories'
-            this.type = '1'
-          } else {
-            this.classData.title = 'Add new meal categories'
-            this.type = '2'
-          }
-          this.action = 'add'
-          this.classData.name = ''
-          this.classData.sort = ''
-          this.classData.dialogVisible = true
+        mounted() {
         },
-        editHandle(dat) {
-          this.classData.title = 'Modify category'
-          this.action = 'edit'
-          this.classData.name = dat.name
-          this.classData.sort = dat.sort
-          this.classData.id = dat.id
-          this.classData.dialogVisible = true
-        },
-        // Close pop-up window
-        handleClose(st) {
-          this.classData.dialogVisible = false
-        },
-        //Delete
-        deleteHandle(id) {
-          this.$confirm('This operation will permanently delete the file. Do you want to continue ?', 'tips', {
-            'confirmButtonText': 'Confirm',
-            'cancelButtonText': 'Cancel',
-            'type': 'warning'
-          }).then(() => {
-            deleCategory(id).then(res => {
-              if (res.code === 1) {
-                this.$message.success('successfully deleted !')
-                this.handleQuery()
-              } else {
-                this.$message.error(res.msg || 'operation failed !')
-              }
-            }).catch(err => {
-              this.$message.error('An error occurred with the request：' + err)
-            })
-          })
-        },
-        //Data submission
-        submitForm(st) {
-            const classData = this.classData
-            const valid = (classData.name === 0 ||classData.name)  && (classData.sort === 0 || classData.sort)
-            if (this.action === 'add') {
-              if (valid) {
-                const reg = /^\d+$/
-                if (reg.test(classData.sort)) {
-                  addCategory({'name': classData.name,'type':this.type, sort: classData.sort}).then(res => {
-                    console.log(res)
-                    if (res.code === 1) {
-                      this.$message.success('Category added successfully !')
-                      if (!st) {
-                        this.classData.dialogVisible = false
-                      } else {
-                        this.classData.name = ''
-                        this.classData.sort = ''
-                      }
-                      this.handleQuery()
+        methods: {
+            async init() {
+                await getCategoryPage({'page': this.page, 'pageSize': this.pageSize}).then(res => {
+                    if (String(res.code) === '1') {
+                        this.tableData = res.data.records
+                        this.counts = Number(res.data.total)
                     } else {
-                      this.$message.error(res.msg || 'operation failed !')
+                        this.$message.error(res.msg || 'operation failed!')
                     }
-                  }).catch(err => {
+                }).catch(err => {
                     this.$message.error('An error occurred with the request：' + err)
-                  })
+                })
+            },
+            handleQuery() {
+                this.page = 1;
+                this.init();
+            },
+            // Add
+            addClass(st) {
+                if (st == 'class') {
+                    this.classData.title = 'Add new food categories'
+                    this.type = '1'
                 } else {
-                  this.$message.error('Only numeric types can be entered for sorting !')
+                    this.classData.title = 'Add new meal categories'
+                    this.type = '2'
                 }
+                this.action = 'add'
+                this.classData.name = ''
+                this.classData.sort = ''
+                this.classData.dialogVisible = true
+            },
+            editHandle(dat) {
+                this.classData.title = 'Modify category'
+                this.action = 'edit'
+                this.classData.name = dat.name
+                this.classData.sort = dat.sort
+                this.classData.id = dat.id
+                this.classData.dialogVisible = true
+            },
+            // Close pop-up window
+            handleClose(st) {
+                this.classData.dialogVisible = false
+            },
+            //Delete
+            deleteHandle(id) {
+                this.$confirm('This operation will permanently delete the file. Do you want to continue ?', 'tips', {
+                    'confirmButtonText': 'Confirm',
+                    'cancelButtonText': 'Cancel',
+                    'type': 'warning'
+                }).then(() => {
+                    deleCategory(id).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success('Delete successful!')
+                            this.handleQuery()
+                        } else {
+                            this.$message.error(res.msg || 'Operation failed!')
+                        }
+                    }).catch(err => {
+                        this.$message.error('An error occurred with the request：' + err)
+                    })
+                })
+            },
+            //Data submission
+            submitForm(st) {
+                const classData = this.classData
+                const valid = (classData.name === 0 || classData.name) && (classData.sort === 0 || classData.sort)
+                if (this.action === 'add') {
+                    if (valid) {
+                        const reg = /^\d+$/
+                        if (reg.test(classData.sort)) {
+                            addCategory({'name': classData.name, 'type': this.type, sort: classData.sort}).then(res => {
+                                console.log(res)
+                                if (res.code === 1) {
+                                    this.$message.success('Category added successfully!')
+                                    if (!st) {
+                                        this.classData.dialogVisible = false
+                                    } else {
+                                        this.classData.name = ''
+                                        this.classData.sort = ''
+                                    }
+                                    this.handleQuery()
+                                } else {
+                                    this.$message.error(res.msg || 'operation failed!')
+                                }
+                            }).catch(err => {
+                                this.$message.error('An error occurred with the request：' + err)
+                            })
+                        } else {
+                            this.$message.error('Only numeric types can be entered for sorting !')
+                        }
 
-            } else {
-                this.$message.error('Please enter a category name or sort !')
-            }
-          } else if (valid) {
-            const reg = /^\d+$/
-            if (reg.test(this.classData.sort)) {
-              editCategory({'id':this.classData.id,'name': this.classData.name, sort: this.classData.sort}).then(res => {
-                if (res.code === 1) {
-                  this.$message.success('category modified successfully !')
-                  this.classData.dialogVisible = false
-                  this.handleQuery()
+                    } else {
+                        this.$message.error('Please enter a category name or sort !')
+                    }
+                } else if (valid) {
+                    const reg = /^\d+$/
+                    if (reg.test(this.classData.sort)) {
+                        editCategory({
+                            'id': this.classData.id,
+                            'name': this.classData.name,
+                            sort: this.classData.sort
+                        }).then(res => {
+                            if (res.code === 1) {
+                                this.$message.success('Category modify successful!')
+                                this.classData.dialogVisible = false
+                                this.handleQuery()
+                            } else {
+                                this.$message.error(res.msg || 'Operation failed!')
+                            }
+                        }).catch(err => {
+                            this.$message.error('An error occurred with the request：' + err)
+                        })
+                    } else {
+                        this.$message.error('Only numeric types can be entered for sorting !')
+                    }
                 } else {
-                  this.$message.error(res.msg || 'operation failed !')
+                    this.$message.error('Please enter a category name or sort!')
                 }
-              }).catch(err => {
-                this.$message.error('An error occurred with the request：' + err)
-              })
-            } else {
-              this.$message.error('Only numeric types can be entered for sorting !')
+            },
+            handleSizeChange(val) {
+                this.pageSize = val
+                this.init()
+            },
+            handleCurrentChange(val) {
+                this.page = val
+                this.init()
             }
-          } else {
-            this.$message.error('Please enter a category name or sort !')
-          }
-        },
-        handleSizeChange (val) {
-          this.pageSize = val
-          this.init()
-        },
-        handleCurrentChange (val) {
-          this.page = val
-          this.init()
         }
-      }
     })
 </script>
 </body>

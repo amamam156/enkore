@@ -30,7 +30,7 @@
             <div @click="toAddressPage">
                 <div class="address">{{address.detail}}</div>
                 <div class="name">
-                    <span>{{address.consignee}}{{address.sex === '1' ? '先生':'女士'}}</span>
+                    <span>{{address.consignee}}{{address.sex === '1' ? '先生' : '女士'}}</span>
                     <span>{{address.phone}}</span>
                 </div>
                 <i class="el-icon-arrow-right"></i>
@@ -103,111 +103,112 @@
 <script src="./../api/order.js"></script>
 <script>
     new Vue({
-        el:"#add_order",
-        data(){
+        el: "#add_order",
+        data() {
             return {
-                address:{
-                    phone:'',//手机号
-                    consignee:'',//姓名
-                    detail:'',//详细地址
-                    sex:'1',
-                    id:undefined
+                address: {
+                    phone: '',//手机号
+                    consignee: '',//姓名
+                    detail: '',//详细地址
+                    sex: '1',
+                    id: undefined
                 },
-                finishTime:'',//送达时间
-                cartData:[],
-                note:''//备注信息
+                finishTime: '',//送达时间
+                cartData: [],
+                note: ''//备注信息
             }
         },
-        computed:{
-            goodsNum(){
+        computed: {
+            goodsNum() {
                 let num = 0
-                this.cartData.forEach(item=>{
+                this.cartData.forEach(item => {
                     num += item.number
                 })
-                if(num <99){
+                if (num < 99) {
                     return num
-                }else{
+                } else {
                     return '99+'
                 }
             },
-            goodsPrice(){
-            let price = 0
-            this.cartData.forEach(item=>{
-                price += (item.number * item.amount)
-            })
-            return price
+            goodsPrice() {
+                let price = 0
+                this.cartData.forEach(item => {
+                    price += (item.number * item.amount)
+                })
+                return price
             }
         },
-        created(){
+        created() {
             this.initData()
         },
-        mounted(){},
-        methods:{
-            goBack(){
+        mounted() {
+        },
+        methods: {
+            goBack() {
                 history.go(-1)
             },
-            initData(){
+            initData() {
                 //获取默认的地址
                 this.defaultAddress()
                 //获取购物车的商品
                 this.getCartData()
             },
             //获取默认地址
-            async defaultAddress(){
-                const res = await  getDefaultAddressApi()
-                if(res.code === 1){
-                   this.address = res.data
-                   this.getFinishTime()
-                }else{
-                    window.requestAnimationFrame(()=>{
+            async defaultAddress() {
+                const res = await getDefaultAddressApi()
+                if (res.code === 1) {
+                    this.address = res.data
+                    this.getFinishTime()
+                } else {
+                    window.requestAnimationFrame(() => {
                         window.location.href = '/front/page/address-edit.html'
                     })
                 }
             },
             //获取送达时间
-            getFinishTime(){
+            getFinishTime() {
                 let now = new Date()
-                let hour = now.getHours() +1
+                let hour = now.getHours() + 1
                 let minute = now.getMinutes()
-                if(hour.toString().length <2){
+                if (hour.toString().length < 2) {
                     hour = '0' + hour
                 }
-                if(minute.toString().length <2){
+                if (minute.toString().length < 2) {
                     minute = '0' + minute
                 }
                 this.finishTime = hour + ':' + minute
             },
-            toAddressPage(){
-                window.requestAnimationFrame(()=>{
+            toAddressPage() {
+                window.requestAnimationFrame(() => {
                     window.location.href = '/front/page/address.html'
                 })
             },
             //获取购物车数据
-            async getCartData(){
+            async getCartData() {
                 const res = await cartListApi({})
-                if(res.code === 1){
+                if (res.code === 1) {
                     this.cartData = res.data
-                }else{
-                    this.$notify({ type:'warning', message:res.msg});
+                } else {
+                    this.$notify({type: 'warning', message: res.msg});
                 }
             },
-            async goToPaySuccess(){
+            async goToPaySuccess() {
                 const params = {
-                    remark:this.note,
-                    payMethod:1,
-                    addressBookId:this.address.id
+                    remark: this.note,
+                    payMethod: 1,
+                    addressBookId: this.address.id
                 }
                 const res = await addOrderApi(params)
-                if(res.code === 1){
-                    window.requestAnimationFrame(()=>{
+                if (res.code === 1) {
+                    window.requestAnimationFrame(() => {
                         window.location.replace('/front/page/pay-success.html')
                     })
-                }else{
-                    this.$notify({ type:'warning', message:res.msg});
+                } else {
+                    this.$notify({type: 'warning', message: res.msg});
                 }
             },
             //网络图片路径转换
-            imgPathConvert(path){
+            imgPathConvert(path) {
                 return imgPath(path)
             },
         }

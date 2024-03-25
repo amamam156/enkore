@@ -77,7 +77,7 @@
                     label="套餐价"
             >
                 <template slot-scope="scope">
-                    <span>￥{{ scope.row.price/100 }}</span>
+                    <span>￥{{ scope.row.price / 100 }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="售卖状态">
@@ -145,138 +145,138 @@
 <script src="../../api/combo.js"></script>
 <script>
     new Vue({
-      el: '#combo-app',
-      data() {
-        return {
-           input: '',
-           counts: 0,
-           page: 1,
-           pageSize: 10,
-           tableData : [],
-           dishState : '',
-           checkList: []
+        el: '#combo-app',
+        data() {
+            return {
+                input: '',
+                counts: 0,
+                page: 1,
+                pageSize: 10,
+                tableData: [],
+                dishState: '',
+                checkList: []
+            }
+        },
+        computed: {},
+        created() {
+            this.init()
+        },
+        mounted() {
+        },
+        methods: {
+            async init() {
+                const params = {
+                    page: this.page,
+                    pageSize: this.pageSize,
+                    name: this.input ? this.input : undefined
+                }
+                await getSetmealPage(params).then(res => {
+                    if (String(res.code) === '1') {
+                        this.tableData = res.data.records || []
+                        this.counts = res.data.total
+                    }
+                }).catch(err => {
+                    this.$message.error('请求出错了：' + err)
+                })
+            },
+            getImage(image) {
+                return `/common/download?name=${image}`
+            },
+            handleQuery() {
+                this.page = 1;
+                this.init();
+            },
+            // 添加
+            addSetMeal(st) {
+                if (st === 'add') {
+                    window.parent.menuHandle({
+                        id: '5',
+                        url: '/backend/page/combo/add.html',
+                        name: '添加套餐'
+                    }, true)
+                } else {
+                    window.parent.menuHandle({
+                        id: '5',
+                        url: '/backend/page/combo/add.html?id=' + st,
+                        name: '修改套餐'
+                    }, true)
+                }
+            },
+
+            // 删除
+            deleteHandle(type, id) {
+                if (type === '批量' && id === null) {
+                    if (this.checkList.length === 0) {
+                        return this.$message.error('请选择删除对象')
+                    }
+                }
+                this.$confirm('确定删除该套餐, 是否继续?', '确定删除', {
+                    'confirmButtonText': '确定',
+                    'cancelButtonText': '取消',
+                }).then(() => {
+                    deleteSetmeal(type === '批量' ? this.checkList.join(',') : id).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success('删除成功！')
+                            this.handleQuery()
+                        } else {
+                            this.$message.error(res.msg || '操作失败')
+                        }
+                    }).catch(err => {
+                        this.$message.error('请求出错了：' + err)
+                    })
+                })
+            },
+
+            //状态更改
+            statusHandle(row) {
+                let params = {}
+                if (typeof row === 'string') {
+                    if (this.checkList.length == 0) {
+                        this.$message.error('批量操作，请先勾选操作菜品！')
+                        return false
+                    }
+                    params.ids = this.checkList.join(',')
+                    params.status = row
+                } else {
+                    params.ids = row.id
+                    params.status = row.status ? '0' : '1'
+                }
+                this.$confirm('确认更改该套餐状态?', '提示', {
+                    'confirmButtonText': '确定',
+                    'cancelButtonText': '取消',
+                    'type': 'warning'
+                }).then(() => {
+                    // 起售停售---批量起售停售接口
+                    setmealStatusByStatus(params).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success('套餐状态已经更改成功！')
+                            this.handleQuery()
+                        } else {
+                            this.$message.error(res.msg || '操作失败')
+                        }
+                    }).catch(err => {
+                        this.$message.error('请求出错了：' + err)
+                    })
+                })
+            },
+
+            // 全部操作
+            handleSelectionChange(val) {
+                let checkArr = []
+                val.forEach((n) => {
+                    checkArr.push(n.id)
+                })
+                this.checkList = checkArr
+            },
+            handleSizeChange(val) {
+                this.pageSize = val
+                this.init()
+            },
+            handleCurrentChange(val) {
+                this.page = val
+                this.init()
+            }
         }
-      },
-      computed: {},
-      created() {
-        this.init()
-      },
-      mounted() {
-      },
-      methods: {
-        async init () {
-          const params = {
-            page: this.page,
-            pageSize: this.pageSize,
-            name: this.input ? this.input : undefined
-          }
-          await getSetmealPage(params).then(res => {
-            if (String(res.code) === '1') {
-              this.tableData = res.data.records || []
-              this.counts = res.data.total
-            }
-          }).catch(err => {
-            this.$message.error('请求出错了：' + err)
-          })
-        },
-        getImage (image) {
-          return `/common/download?name=${image}`
-        },
-        handleQuery() {
-          this.page = 1;
-          this.init();
-        },
-        // 添加
-        addSetMeal (st) {
-          if (st === 'add'){
-            window.parent.menuHandle({
-              id: '5',
-              url: '/backend/page/combo/add.html',
-              name: '添加套餐'
-            },true)
-          } else {
-            window.parent.menuHandle({
-              id: '5',
-              url: '/backend/page/combo/add.html?id='+st,
-              name: '修改套餐'
-            },true)
-          }
-        },
-
-        // 删除
-        deleteHandle (type, id) {
-          if (type === '批量' && id === null) {
-            if (this.checkList.length === 0) {
-              return this.$message.error('请选择删除对象')
-            }
-          }
-          this.$confirm('确定删除该套餐, 是否继续?', '确定删除', {
-            'confirmButtonText': '确定',
-            'cancelButtonText': '取消',
-          }).then(() => {
-            deleteSetmeal(type === '批量' ? this.checkList.join(',') : id).then(res => {
-              if (res.code === 1) {
-                this.$message.success('删除成功！')
-                this.handleQuery()
-              } else {
-                this.$message.error(res.msg || '操作失败')
-              }
-            }).catch(err => {
-              this.$message.error('请求出错了：' + err)
-            })
-          })
-        },
-
-        //状态更改
-        statusHandle (row) {
-          let params = {}
-          if (typeof row === 'string' ){
-            if (this.checkList.length == 0){
-              this.$message.error('批量操作，请先勾选操作菜品！')
-              return false
-            }
-            params.ids = this.checkList.join(',')
-            params.status = row
-          } else {
-            params.ids = row.id
-            params.status = row.status ? '0' : '1'
-          }
-          this.$confirm('确认更改该套餐状态?', '提示', {
-            'confirmButtonText': '确定',
-            'cancelButtonText': '取消',
-            'type': 'warning'
-          }).then(() => {
-            // 起售停售---批量起售停售接口
-            setmealStatusByStatus(params).then(res => {
-              if (res.code === 1) {
-                this.$message.success('套餐状态已经更改成功！')
-                this.handleQuery()
-              } else {
-                this.$message.error(res.msg || '操作失败')
-              }
-            }).catch(err => {
-                this.$message.error('请求出错了：' + err)
-            })
-          })
-        },
-
-        // 全部操作
-        handleSelectionChange (val){
-          let checkArr = []
-          val.forEach((n) => {
-            checkArr.push(n.id)
-          })
-          this.checkList = checkArr
-        },
-        handleSizeChange (val) {
-          this.pageSize = val
-          this.init()
-        },
-        handleCurrentChange (val) {
-          this.page = val
-          this.init()
-        }
-      }
     })
 </script>
 </body>
