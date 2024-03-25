@@ -107,4 +107,20 @@ public class DishController {
 
         return R.success("Add dish successful!");
     }
+
+
+    // get list dish
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish){
+
+        // create condition
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(dish.getCategoryId() !=  null, Dish::getCategoryId, dish.getCategoryId());
+        // status
+        queryWrapper.eq(Dish::getStatus, 1);
+        // sort
+        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+        List<Dish> list = dishService.list(queryWrapper);
+        return R.success(list);
+    }
 }
