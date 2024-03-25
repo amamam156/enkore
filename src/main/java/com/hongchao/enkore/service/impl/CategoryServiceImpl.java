@@ -34,7 +34,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         // check relative
         if (count > 0){
             // relative
-            throw new CustomException("Deletion error: The current category has related foods and cannot be deleted!");
+            throw new CustomException("Deletion error: The current category has related dishes and cannot be deleted!");
         }
 
         // meal

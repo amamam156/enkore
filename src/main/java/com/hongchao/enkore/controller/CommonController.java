@@ -51,6 +51,8 @@ public class CommonController {
         return R.success(fileName);
     }
 
+
+    // download file
     @GetMapping("/download")
 
     public void download(String name, HttpServletResponse response) {

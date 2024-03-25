@@ -18,4 +18,4 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
 enkore:
-  path: /Users/john/Desktop/enkore/
+  path: /Users/john/IdeaProjects/enkore/src/main/resources/imag/
