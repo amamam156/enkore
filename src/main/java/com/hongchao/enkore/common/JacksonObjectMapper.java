@@ -25,13 +25,15 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
  * JSON into Java objects is called [Deserializing Java objects from JSON] The process of generating JSON from Java
  * objects is called [Serialize Java Objects to JSON]
  */
-public class JacksonObjectMapper extends ObjectMapper {
+public class JacksonObjectMapper extends ObjectMapper
+{
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
 
-    public JacksonObjectMapper() {
+    public JacksonObjectMapper()
+    {
         super();
         // No exception is reported when receiving unknown attributes
         this.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);

@@ -1,6 +1,5 @@
 package com.hongchao.enkore.controller;
 
-
 import com.hongchao.enkore.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,12 +21,15 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequestMapping("/common")
-public class CommonController {
+public class CommonController
+{
 
     @Value("${enkore.path}")
     private String basePath;
+
     @PostMapping("/upload")
-    public R<String> upload(MultipartFile file){
+    public R<String> upload(MultipartFile file)
+    {
         log.info(file.toString());
 
         // original file name
@@ -39,24 +41,28 @@ public class CommonController {
 
         //check path
         File dir = new File(basePath);
-        if  (!dir.exists()){
+        if (!dir.exists())
+        {
             dir.mkdirs();
         }
-        try {
+        try
+        {
             // save file
             file.transferTo(new File(basePath + fileName));
-        }catch (IOException e){
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
         return R.success(fileName);
     }
 
-
     // download file
     @GetMapping("/download")
 
-    public void download(String name, HttpServletResponse response) {
-        try {
+    public void download(String name, HttpServletResponse response)
+    {
+        try
+        {
             //input
             FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
             //output
@@ -65,8 +71,9 @@ public class CommonController {
 
             int len = 0;
             byte[] bytes = new byte[1024];
-            while ((len = fileInputStream.read(bytes)) != -1){
-                outputStrem.write(bytes, 0,len);
+            while ((len = fileInputStream.read(bytes)) != -1)
+            {
+                outputStrem.write(bytes, 0, len);
                 outputStrem.flush();
             }
 
@@ -74,7 +81,8 @@ public class CommonController {
             outputStrem.close();
             fileInputStream.close();
 
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
     }

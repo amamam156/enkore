@@ -14,16 +14,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
+public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService
+{
 
     @Autowired
     private DishService dishService;
 
     @Autowired
     private SetmealService setmealService;
+
     // delete by id
     @Override
-    public void remove(Long id){
+    public void remove(Long id)
+    {
 
         // food
 
@@ -32,7 +35,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         dishLambdaQueryWrapper.eq(Dish::getCategoryId, id);
         int count = dishService.count(dishLambdaQueryWrapper);
         // check relative
-        if (count > 0){
+        if (count > 0)
+        {
             // relative
             throw new CustomException("Deletion error: The current category has related dishes and cannot be deleted!");
         }
@@ -44,13 +48,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         setmealLambdaQueryWrapper.eq(Setmeal::getCategoryId, id);
         int count2 = setmealService.count(setmealLambdaQueryWrapper);
         // check relative
-        if (count2 > 0){
+        if (count2 > 0)
+        {
             // relative
             throw new CustomException("Deletion error: The current category has related meals and cannot be deleted!");
         }
         // delete
         super.removeById(id);
-
 
     }
 }

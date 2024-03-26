@@ -1,6 +1,5 @@
 package com.hongchao.enkore.controller;
 
-
 // meal management
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -23,7 +22,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/setmeal")
 @Slf4j
-public class SetmealController {
+public class SetmealController
+{
 
     @Autowired
     private SetmealService setmealService;
@@ -35,16 +35,17 @@ public class SetmealController {
     private CategoryService categoryService;
 
     // add meal
-
     @PostMapping
-    public R<String> save(@RequestBody SetmealDto setmealDto){
+    public R<String> save(@RequestBody SetmealDto setmealDto)
+    {
         log.info("Meal: {}", setmealDto);
         setmealService.saveWithDish(setmealDto);
         return R.success("Add meal successful!");
     }
 
     @GetMapping("/page")
-    public R<Page> page(int page, int pageSize, String name){
+    public R<Page> page(int page, int pageSize, String name)
+    {
         // create object
         Page<Setmeal> pageInfo = new Page<>(page, pageSize);
         Page<SetmealDto> dtoPage = new Page<>();
@@ -65,7 +66,8 @@ public class SetmealController {
 
         List<Setmeal> records = pageInfo.getRecords();
 
-        List<SetmealDto> list = records.stream().map((item) -> {
+        List<SetmealDto> list = records.stream().map((item) ->
+        {
             SetmealDto setmealDto = new SetmealDto();
 
             BeanUtils.copyProperties(item, setmealDto);
@@ -74,7 +76,8 @@ public class SetmealController {
 
             Category category = categoryService.getById(categoryId);
 
-            if(category != null){
+            if (category != null)
+            {
                 String categoryName = category.getName();
                 setmealDto.setCategoryName(categoryName);
             }
@@ -88,9 +91,30 @@ public class SetmealController {
 
     // delete meal
     @DeleteMapping
-    public R<String> delete(@RequestParam List<Long> ids){
-        log.info("ids, {}",ids );
+    public R<String> delete(@RequestParam List<Long> ids)
+    {
+        log.info("ids, {}", ids);
         setmealService.removeWithDish(ids);
         return R.success("Delete meal successful!");
+    }
+
+    @PostMapping("/status/0")
+    public R<String> stopStatus(String ids)
+    {
+        log.info("ids, {}", ids);
+
+        setmealService.stopStatus(ids);
+
+        return R.success("Stop successful!");
+    }
+
+    @PostMapping("/status/1")
+    public R<String> startStatus(String ids)
+    {
+        log.info("ids, {}", ids);
+
+        setmealService.startStatus(ids);
+
+        return R.success("Start successful!");
     }
 }

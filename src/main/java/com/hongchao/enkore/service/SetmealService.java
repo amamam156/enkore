@@ -6,11 +6,18 @@ import com.hongchao.enkore.entity.Setmeal;
 
 import java.util.List;
 
-public interface SetmealService extends IService<Setmeal> {
+public interface SetmealService extends IService<Setmeal>
+{
 
     // save meal with dish
     public void saveWithDish(SetmealDto setmealDto);
 
     // delete meal
     public void removeWithDish(List<Long> ids);
+
+    // stop status
+    public void stopStatus(String ids);
+
+    // start status
+    public void startStatus(String ids);
 }

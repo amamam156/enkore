@@ -15,13 +15,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/category")
 @Slf4j
-public class CategoryController {
+public class CategoryController
+{
     @Autowired
     private CategoryService categoryService;
 
     // add new category
     @PostMapping
-    public R<String> save(@RequestBody Category category){
+    public R<String> save(@RequestBody Category category)
+    {
         log.info("category: {}", category);
         categoryService.save(category);
         return R.success("Add new category successful!");
@@ -30,7 +32,8 @@ public class CategoryController {
     // Paging query
 
     @GetMapping("/page")
-    public R<Page> page(int page, int pageSize){
+    public R<Page> page(int page, int pageSize)
+    {
         // paging creator
         Page<Category> pageInfo = new Page<>(page, pageSize);
         // conditional constructor
@@ -42,9 +45,11 @@ public class CategoryController {
         return R.success(pageInfo);
 
     }
+
     // delete by id
     @DeleteMapping
-    public R<String> delete(Long id){
+    public R<String> delete(Long id)
+    {
         log.info("delete category, id is: {}", id);
         // categoryService.removeById(id);
         categoryService.remove(id);
@@ -53,7 +58,8 @@ public class CategoryController {
 
     // modify category by id
     @PutMapping
-    public R<String> update(@RequestBody Category category){
+    public R<String> update(@RequestBody Category category)
+    {
         log.info("Modify category: {}", category);
         categoryService.updateById(category);
         return R.success("Modify category successful!");
@@ -61,7 +67,8 @@ public class CategoryController {
 
     // search by condition
     @GetMapping("/list")
-    public R<List<Category>> list(Category category){
+    public R<List<Category>> list(Category category)
+    {
 
         // conditional constructor
 

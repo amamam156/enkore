@@ -5,5 +5,6 @@ import com.hongchao.enkore.entity.Dish;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface DishMapper extends BaseMapper<Dish> {
+public interface DishMapper extends BaseMapper<Dish>
+{
 }

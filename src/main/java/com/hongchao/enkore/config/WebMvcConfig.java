@@ -12,10 +12,12 @@ import java.util.List;
 
 @Configuration
 @Slf4j
-public class WebMvcConfig extends WebMvcConfigurationSupport {
+public class WebMvcConfig extends WebMvcConfigurationSupport
+{
     // Set static resource mapping
     @Override
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+    protected void addResourceHandlers(ResourceHandlerRegistry registry)
+    {
 
         log.info("Start setting static resource mapping...");
         registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
@@ -24,7 +26,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     // extent MVC format message to Message Converters
     @Override
-    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters)
+    {
         log.info("Extent Message Converter...");
         // create object
         MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();

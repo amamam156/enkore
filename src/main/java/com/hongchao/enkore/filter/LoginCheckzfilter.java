@@ -15,14 +15,16 @@ import java.io.IOException;
 // check if login
 @WebFilter(filterName = "loginCheckFilter", urlPatterns = "/*")
 @Slf4j
-public class LoginCheckzfilter implements Filter {
+public class LoginCheckzfilter implements Filter
+{
 
     // path matcher
     public static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
+            throws IOException, ServletException
+    {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
@@ -31,20 +33,23 @@ public class LoginCheckzfilter implements Filter {
         log.info("Intercepted request: {}", requestURI);
 
         // define requests that do not need to be processed
-        String[] urls = new String[]{"/employee/login", "/employee/logout", "/backend/**", "/front/**", "/common/**"};
+        String[] urls = new String[] { "/employee/login", "/employee/logout", "/backend/**", "/front/**",
+                "/common/**" };
 
         // check if need to process
         boolean check = check(urls, requestURI);
 
         // pass
-        if (check) {
+        if (check)
+        {
             log.info("Intercepted request: {} do not need to process", requestURI);
             filterChain.doFilter(request, response);
             return;
         }
 
         // check if login
-        if (request.getSession().getAttribute("employee") != null) {
+        if (request.getSession().getAttribute("employee") != null)
+        {
             log.info("User login, user id is : {} ", request.getSession().getAttribute("employee"));
 
             Long emId = (Long) request.getSession().getAttribute("employee");
@@ -61,10 +66,13 @@ public class LoginCheckzfilter implements Filter {
     }
 
     // when path match check if pass
-    public boolean check(String[] urls, String requestURI) {
-        for (String url : urls) {
+    public boolean check(String[] urls, String requestURI)
+    {
+        for (String url : urls)
+        {
             boolean match = PATH_MATCHER.match(url, requestURI);
-            if (match) {
+            if (match)
+            {
                 return true;
             }
         }

@@ -10,11 +10,12 @@ import java.time.LocalDateTime;
 @Component
 @Slf4j
 
-
-public class MymetaObjectHandler implements MetaObjectHandler {
+public class MymetaObjectHandler implements MetaObjectHandler
+{
     @Override
     // update when insert
-    public void insertFill(MetaObject metaObject) {
+    public void insertFill(MetaObject metaObject)
+    {
         log.info("Public AutoFill[insert]...");
         log.info(metaObject.toString());
         metaObject.setValue("createTime", LocalDateTime.now());
@@ -23,10 +24,10 @@ public class MymetaObjectHandler implements MetaObjectHandler {
         metaObject.setValue("updateUser", BaseContext.getCurrentId());
     }
 
-
     @Override
     // update when update
-    public void updateFill(MetaObject metaObject) {
+    public void updateFill(MetaObject metaObject)
+    {
         log.info("Public AutoFill[update]...");
         log.info(metaObject.toString());
 

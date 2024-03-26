@@ -5,5 +5,6 @@ import com.hongchao.enkore.entity.SetmealDish;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface SetmealDishMapper extends BaseMapper<SetmealDish> {
+public interface SetmealDishMapper extends BaseMapper<SetmealDish>
+{
 }
