@@ -1,22 +1,20 @@
 (function (win) {
     axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
-    // Create axios instance
+    // 创建axios实例
     const service = axios.create({
-        // The request configuration in axios has the baseURL option, which indicates the public part of the request URL.
+        // axios中请求配置有baseURL选项，表示请求URL公共部分
         baseURL: '/',
-        // timeout
+        // 超时
         timeout: 1000000
     })
-    // request interceptor
+    // request拦截器
     service.interceptors.request.use(config => {
-        // if need to set token
+        // 是否需要设置 token
         // const isToken = (config.headers || {}).isToken === false
         // if (getToken() && !isToken) {
-        //   config.headers['Authorization'] = 'Bearer ' + getToken()
-        // Let each request carry a custom token.
-        // Please modify it according to the actual situation.
+        //   config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
         // }
-        // get request mapping params parameters
+        // get请求映射params参数
         if (config.method === 'get' && config.params) {
             let url = config.url + '?';
             for (const propName of Object.keys(config.params)) {
@@ -44,10 +42,16 @@
         Promise.reject(error)
     })
 
-    // response interceptor
+    // 响应拦截器
     service.interceptors.response.use(res => {
-            if (res.data.code === 0 && res.data.msg === 'NOTLOGIN') {// back to login page
-                console.log('---/backend/page/login/login.html---')
+            console.log('---响应拦截器---', res)
+            // 未设置状态码则默认成功状态
+            const code = res.data.code;
+            // 获取错误信息
+            const msg = res.data.msg
+            console.log('---code---', code)
+            if (res.data.code === 0 && res.data.msg === 'NOTLOGIN') {// 返回登录页面
+                console.log('---/backend/page/login/login.html---', code)
                 localStorage.removeItem('userInfo')
                 window.top.location.href = '/backend/page/login/login.html'
             } else {
@@ -58,11 +62,11 @@
             console.log('err' + error)
             let {message} = error;
             if (message == "Network Error") {
-                message = "Backend interface connection error";
+                message = "后端接口连接异常";
             } else if (message.includes("timeout")) {
-                message = "System interface request timeout";
+                message = "系统接口请求超时";
             } else if (message.includes("Request failed with status code")) {
-                message = "System interface error : " + message.substr(message.length - 3);
+                message = "系统接口" + message.substr(message.length - 3) + "异常";
             }
             window.ELEMENT.Message({
                 message: message,

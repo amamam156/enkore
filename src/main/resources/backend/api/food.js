@@ -1,4 +1,4 @@
-// Query list interface
+// 查询列表接口
 const getDishPage = (params) => {
     return $axios({
         url: '/dish/page',
@@ -7,7 +7,7 @@ const getDishPage = (params) => {
     })
 }
 
-// Delete interface
+// 删除接口
 const deleteDish = (ids) => {
     return $axios({
         url: '/dish',
@@ -16,7 +16,7 @@ const deleteDish = (ids) => {
     })
 }
 
-// Modify interface
+// 修改接口
 const editDish = (params) => {
     return $axios({
         url: '/dish',
@@ -25,7 +25,7 @@ const editDish = (params) => {
     })
 }
 
-// Add interface
+// 新增接口
 const addDish = (params) => {
     return $axios({
         url: '/dish',
@@ -34,7 +34,7 @@ const addDish = (params) => {
     })
 }
 
-// Query details
+// 查询详情
 const queryDishById = (id) => {
     return $axios({
         url: `/dish/${id}`,
@@ -42,7 +42,7 @@ const queryDishById = (id) => {
     })
 }
 
-// Get a list of dish categories
+// 获取菜品分类列表
 const getCategoryList = (params) => {
     return $axios({
         url: '/category/list',
@@ -51,7 +51,7 @@ const getCategoryList = (params) => {
     })
 }
 
-// Interface for checking menu list
+// 查菜品列表的接口
 const queryDishList = (params) => {
     return $axios({
         url: '/dish/list',
@@ -60,7 +60,7 @@ const queryDishList = (params) => {
     })
 }
 
-// File down preview
+// 文件down预览
 const commonDownload = (params) => {
     return $axios({
         headers: {
@@ -72,7 +72,7 @@ const commonDownload = (params) => {
     })
 }
 
-// Sales start and stop---Batch start and stop sales interface
+// 起售停售---批量起售停售接口
 const dishStatusByStatus = (params) => {
     return $axios({
         url: `/dish/status/${params.status}`,

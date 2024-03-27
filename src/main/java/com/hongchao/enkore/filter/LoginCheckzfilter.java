@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
+
 // check if login
 @WebFilter(filterName = "loginCheckFilter", urlPatterns = "/*")
 @Slf4j
@@ -33,8 +35,8 @@ public class LoginCheckzfilter implements Filter
         log.info("Intercepted request: {}", requestURI);
 
         // define requests that do not need to be processed
-        String[] urls = new String[] { "/employee/login", "/employee/logout", "/backend/**", "/front/**",
-                "/common/**" };
+        String[] urls = new String[] { "/employee/login", "/employee/logout", "/backend/**", "/front/**", "/common/**",
+                "/user/sendMsg", "/user/login" };
 
         // check if need to process
         boolean check = check(urls, requestURI);
@@ -47,10 +49,10 @@ public class LoginCheckzfilter implements Filter
             return;
         }
 
-        // check if login
+        // check if login - employee
         if (request.getSession().getAttribute("employee") != null)
         {
-            log.info("User login, user id is : {} ", request.getSession().getAttribute("employee"));
+            log.info("Employee login, employee id is: {}", request.getSession().getAttribute("employee"));
 
             Long emId = (Long) request.getSession().getAttribute("employee");
             BaseContext.setCurrentId(emId);
@@ -58,6 +60,19 @@ public class LoginCheckzfilter implements Filter
             filterChain.doFilter(request, response);
             return;
         }
+
+        // check if login - user
+        if (request.getSession().getAttribute("user") != null)
+        {
+            log.info("User login, user id is: {}", request.getSession().getAttribute("user"));
+
+            Long userId = (Long) request.getSession().getAttribute("user");
+            BaseContext.setCurrentId(userId);
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         log.info("User not login");
         // not login
         response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));

@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enkore Karaoke Management Backend</title>
+    <title>瑞吉外卖管理端</title>
     <link rel="shortcut icon" href="../../favicon.ico">
-    <!-- Introduce styles -->
+    <!-- 引入样式 -->
     <link rel="stylesheet" href="../../plugins/element-ui/index.css"/>
     <link rel="stylesheet" href="../../styles/common.css">
     <link rel="stylesheet" href="../../styles/login.css">
@@ -41,8 +41,8 @@
                 <el-form-item style="width:100%;">
                     <el-button :loading="loading" class="login-btn" size="medium" type="primary" style="width:100%;"
                                @click.native.prevent="handleLogin">
-                        <span v-if="!loading">login</span>
-                        <span v-else>logging in...</span>
+                        <span v-if="!loading">登录</span>
+                        <span v-else>登录中...</span>
                     </el-button>
                 </el-form-item>
             </el-form>
@@ -50,11 +50,11 @@
     </div>
 </div>
 
-<!-- Development version, including helpful command line warnings -->
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
 <script src="../../plugins/vue/vue.js"></script>
-<!-- Introduce component library -->
+<!-- 引入组件库 -->
 <script src="../../plugins/element-ui/index.js"></script>
-<!-- Introducing axios -->
+<!-- 引入axios -->
 <script src="../../plugins/axios/axios.min.js"></script>
 <script src="../../js/request.js"></script>
 <script src="../../js/validate.js"></script>
@@ -76,14 +76,14 @@
             loginRules() {
                 const validateUsername = (rule, value, callback) => {
                     if (value.length < 1) {
-                        callback(new Error('Please enter user name !'))
+                        callback(new Error('请输入用户名'))
                     } else {
                         callback()
                     }
                 }
                 const validatePassword = (rule, value, callback) => {
                     if (value.length < 6) {
-                        callback(new Error('Password must be more than 6 characters !'))
+                        callback(new Error('密码必须在6位以上'))
                     } else {
                         callback()
                     }
@@ -102,7 +102,7 @@
                     if (valid) {
                         this.loading = true
                         let res = await loginApi(this.loginForm)
-                        if (String(res.code) === '1') {
+                        if (String(res.code) === '1') {//1表示登录成功
                             localStorage.setItem('userInfo', JSON.stringify(res.data))
                             window.location.href = '/backend/index.html'
                         } else {

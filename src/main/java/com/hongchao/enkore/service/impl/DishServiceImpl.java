@@ -146,8 +146,8 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         idList.forEach(id ->
         {
             Dish dish = dishMapper.selectById(id);
-                dish.setStatus(1);
-                dishMapper.updateById(dish);
+            dish.setStatus(1);
+            dishMapper.updateById(dish);
 
         });
     }

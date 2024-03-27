@@ -29,6 +29,8 @@ public class Employee implements Serializable
 
     private String address;
 
+    private String email;
+
     private Integer status;
 
     @TableField(fill = FieldFill.INSERT)

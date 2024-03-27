@@ -14,19 +14,6 @@ function isCellPhone(val) {
     }
 }
 
-function checkAddress(rule, value, callback) {
-
-    // 使用正则表达式匹配地址
-    if (value.trim() === "") {
-        callback(new Error("请输入地址"));
-    } else if (value.length < 5 || value.length > 20) {
-        callback(new Error("地址长度应在5到20个字符之间"));
-    } else {
-        callback();
-    }
-}
-
-
 //校验账号
 function checkUserName(rule, value, callback) {
     if (value == "") {
@@ -43,7 +30,7 @@ function checkName(rule, value, callback) {
     if (value == "") {
         callback(new Error("请输入姓名"))
     } else if (value.length > 12) {
-        callback(new Error("姓名长度应是1-12"))
+        callback(new Error("账号长度应是1-12"))
     } else {
         callback()
     }
@@ -72,5 +59,3 @@ function validID(rule, value, callback) {
         callback(new Error('身份证号码不正确'))
     }
 }
-
-

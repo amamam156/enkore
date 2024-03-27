@@ -64,16 +64,6 @@
                         maxlength="20"
                 />
             </el-form-item>
-            <el-form-item
-                    label="地址:"
-                    prop="address"
-            >
-                <el-input
-                        v-model="ruleForm.address"
-                        placeholder="请输入地址"
-                        maxlength="20"
-                />
-            </el-form-item>
             <div class="subBox address">
                 <el-form-item>
                     <el-button @click="goBack()">
@@ -120,7 +110,6 @@
                     'phone': '',
                     'sex': '男',
                     'idNumber': '',
-                    'address': '',
                     username: ''
                 }
             }
@@ -137,8 +126,7 @@
                     //姓名
                     name: [{required: true, 'validator': checkName, 'trigger': 'blur'}],
                     'phone': [{'required': true, 'validator': checkPhone, 'trigger': 'blur'}],
-                    'idNumber': [{'required': true, 'validator': validID, 'trigger': 'blur'}],
-                    'address': [{'required': true, 'validator': checkAddress, 'trigger': 'blur'}]
+                    'idNumber': [{'required': true, 'validator': validID, 'trigger': 'blur'}]
                 }
             }
         },
@@ -186,8 +174,7 @@
                                             // 'password': '',
                                             // 'rePassword': '',/
                                             'sex': '男',
-                                            'idNumber': '',
-                                            'address': ''
+                                            'idNumber': ''
                                         }
                                     }
                                 } else {

@@ -1,6 +1,17 @@
 server:
   port: 8080
 spring:
+  mail:
+    host: smtp.gmail.com
+    username: thisisjohn1013@gmail.com
+    password: ngrqnmpazrolbfcf
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true # Enable STARTTLS
   application:
     name: enkore_karaoke
   datasource:

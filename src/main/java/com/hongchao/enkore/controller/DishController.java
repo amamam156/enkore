@@ -8,6 +8,7 @@ import com.hongchao.enkore.common.R;
 import com.hongchao.enkore.dto.DishDto;
 import com.hongchao.enkore.entity.Category;
 import com.hongchao.enkore.entity.Dish;
+import com.hongchao.enkore.entity.DishFlavor;
 import com.hongchao.enkore.service.CategoryService;
 import com.hongchao.enkore.service.DishFlavorService;
 import com.hongchao.enkore.service.DishService;
@@ -113,6 +114,54 @@ public class DishController
 
     // get list dish
     @GetMapping("/list")
+    public R<List<DishDto>> list(Dish dish)
+    {
+
+        // create condition
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+        // status
+        queryWrapper.eq(Dish::getStatus, 1);
+        // sort
+        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+        List<Dish> list = dishService.list(queryWrapper);
+
+        List<DishDto> dishDtoList = list.stream().map((item) ->
+        {
+            DishDto dishDto = new DishDto();
+
+            BeanUtils.copyProperties(item, dishDto);
+
+            Long categoryId = item.getCategoryId(); // category id
+
+            Category category = categoryService.getById(categoryId);
+
+            if (category != null)
+            {
+                String categoryName = category.getName();
+                dishDto.setCategoryName(categoryName);
+            }
+
+            //
+            Long dishId = item.getId();
+            LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(DishFlavor::getDishId, dishId);
+
+            List<DishFlavor> dishFlavorsList = dishFlavorService.list(lambdaQueryWrapper);
+            dishDto.setFlavors(dishFlavorsList);
+
+            return dishDto;
+        }).collect(Collectors.toList());
+
+        return R.success(dishDtoList);
+    }
+
+    // get list dish
+
+
+    /*
+    @GetMapping("/list")
+
     public R<List<Dish>> list(Dish dish)
     {
 
@@ -126,6 +175,9 @@ public class DishController
         List<Dish> list = dishService.list(queryWrapper);
         return R.success(list);
     }
+
+     */
+
 
     // delete dish
 
