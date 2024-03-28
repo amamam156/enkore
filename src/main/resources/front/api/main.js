@@ -1,4 +1,4 @@
-//获取所有的菜品分类
+// get dish category list
 function categoryListApi() {
     return $axios({
         'url': '/category/list',
@@ -6,7 +6,7 @@ function categoryListApi() {
     })
 }
 
-//获取菜品分类对应的菜品
+// get dish
 function dishListApi(data) {
     return $axios({
         'url': '/dish/list',
@@ -15,7 +15,7 @@ function dishListApi(data) {
     })
 }
 
-//获取菜品分类对应的套餐
+// get meal category
 function setmealListApi(data) {
     return $axios({
         'url': '/setmeal/list',
@@ -24,7 +24,7 @@ function setmealListApi(data) {
     })
 }
 
-//获取购物车内商品的集合
+// get shopping cart list
 function cartListApi(data) {
     return $axios({
         'url': '/shoppingCart/list',
@@ -34,7 +34,7 @@ function cartListApi(data) {
     })
 }
 
-//购物车中添加商品
+// add to shopping cart
 function addCartApi(data) {
     return $axios({
         'url': '/shoppingCart/add',
@@ -43,7 +43,7 @@ function addCartApi(data) {
     })
 }
 
-//购物车中修改商品
+// edit shopping cart
 function updateCartApi(data) {
     return $axios({
         'url': '/shoppingCart/sub',
@@ -52,7 +52,7 @@ function updateCartApi(data) {
     })
 }
 
-//删除购物车的商品
+// delete shopping cart
 function clearCartApi() {
     return $axios({
         'url': '/shoppingCart/clean',
@@ -60,7 +60,7 @@ function clearCartApi() {
     })
 }
 
-//获取套餐的全部菜品
+// get dish form meal
 function setMealDishDetailsApi(id) {
     return $axios({
         'url': `/setmeal/dish/${id}`,

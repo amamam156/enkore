@@ -101,7 +101,7 @@
 }
 
 #address .divContent .divItem .divAddress .spanCompany {
-    background-color: #e1f1fe;
+    background-color: #e88dec;
 }
 
 #address .divContent .divItem .divAddress .spanHome {
@@ -144,7 +144,7 @@
 #address .divBottom {
     height: 36rem;
     opacity: 1;
-    background: #ffc200;
+    background: #c21bc2;
     border-radius: 18rem;
     opacity: 1;
     font-size: 15rem;

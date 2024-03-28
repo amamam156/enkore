@@ -1,11 +1,11 @@
-/* 自定义trim */
-function trim(str) {  //删除左右两端的空格,自定义的trim()方法
+/* customize trim */
+function trim(str) {  // Delete the spaces at the left and right ends, custom trim() method
     return str == undefined ? "" : str.replace(/(^\s*)|(\s*$)/g, "")
 }
 
-//获取url地址上面的参数
+// Get the parameters above the url address
 function requestUrlParam(argname) {
-    var url = location.href //获取完整的请求url路径
+    var url = location.href // Get the complete request url path
     var arrStr = url.substring(url.indexOf("?") + 1).split("&")
     for (var i = 0; i < arrStr.length; i++) {
         var loc = arrStr[i].indexOf(argname + "=")

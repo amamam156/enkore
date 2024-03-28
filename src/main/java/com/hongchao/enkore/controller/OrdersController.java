@@ -18,10 +18,10 @@ public class OrdersController
     @Autowired
     private OrdersService ordersService;
 
-
     // user oder
     @PostMapping("/submit")
-    public R<String> submit(@RequestBody Orders orders){
+    public R<String> submit(@RequestBody Orders orders)
+    {
 
         log.info("Orders: {}", orders);
         ordersService.submit(orders);

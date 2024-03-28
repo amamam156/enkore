@@ -5,24 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
-    <title>菩提阁</title>
+    <title>Enkore Karaoke</title>
     <link rel="icon" href="./../images/favico.ico">
-    <!--不同屏幕尺寸根字体设置-->
+    <!--Root font settings for different screen sizes-->
     <script src="./../js/base.js"></script>
-    <!--element-ui的样式-->
+    <!--element-ui style-->
     <link rel="stylesheet" href="../../backend/plugins/element-ui/index.css"/>
-    <!--引入vant样式-->
+    <!--Introducing vant style-->
     <link rel="stylesheet" href="../styles/vant.min.css"/>
-    <!-- 引入样式  -->
+    <!--Introduce styles -->
     <link rel="stylesheet" href="../styles/index.css"/>
-    <!--本页面内容的样式-->
+    <!--The style of the content of this Page-->
     <link rel="stylesheet" href="./../styles/add-order.css"/>
 </head>
 <body>
 <div id="add_order" class="app">
     <div class="divHead">
         <div class="divTitle">
-            <i class="el-icon-arrow-left" @click="goBack"></i>菩提阁
+            <i class="el-icon-arrow-left" @click="goBack"></i>Enkore Karaoke
         </div>
     </div>
     <div class="divContent">
@@ -30,16 +30,16 @@
             <div @click="toAddressPage">
                 <div class="address">{{address.detail}}</div>
                 <div class="name">
-                    <span>{{address.consignee}}{{address.sex === '1' ? '先生' : '女士'}}</span>
+                    <span>{{address.consignee}}{{address.sex === '1' ? 'Mr' : 'Mrs'}}</span>
                     <span>{{address.phone}}</span>
                 </div>
                 <i class="el-icon-arrow-right"></i>
             </div>
             <div class="divSplit"></div>
-            <div class="divFinishTime">预计{{finishTime}}送达</div>
+            <div class="divFinishTime">Estimated delivery at {{finishTime}}</div>
         </div>
         <div class="order">
-            <div class="title">订单明细</div>
+            <div class="title">Order detail</div>
             <div class="divSplit"></div>
             <div class="itemList">
                 <div class="item" v-for="(item,index) in cartData" :key="index">
@@ -61,14 +61,14 @@
             </div>
         </div>
         <div class="note">
-            <div class="title">备注</div>
+            <div class="title">Note</div>
             <van-field
                     v-model="note"
                     rows="2"
                     autosize
                     type="textarea"
                     maxlength="50"
-                    placeholder="请输入您需要备注的信息"
+                    placeholder="Please enter your note here"
                     show-word-limit
             />
         </div>
@@ -84,18 +84,18 @@
         </div>
         <div class="divPrice"></div>
         <div :class="{btnSubmitActive: cartData && cartData.length > 0, btnSubmit:!cartData || cartData.length<1}"
-             @click="goToPaySuccess">去支付
+             @click="goToPaySuccess">Check out
         </div>
     </div>
 </div>
-<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<!-- Development environment version, including helpful command line warnings -->
 <script src="../../backend/plugins/vue/vue.js"></script>
-<!-- 引入组件库 -->
+<!-- Import component library -->
 <script src="../../backend/plugins/element-ui/index.js"></script>
-<!-- 引入vant样式 -->
+<!-- Introduce vant style -->
 <script src="./../js/vant.min.js"></script>
 <script src="./../api/address.js"></script>
-<!-- 引入axios -->
+<!-- Introduce axios -->
 <script src="../../backend/plugins/axios/axios.min.js"></script>
 <script src="./../js/request.js"></script>
 <script src="./../js/common.js"></script>
@@ -107,15 +107,15 @@
         data() {
             return {
                 address: {
-                    phone: '',//手机号
-                    consignee: '',//姓名
-                    detail: '',//详细地址
+                    phone: '',//Mobile phone number
+                    consignee: '',//name
+                    detail: '',//detailed address
                     sex: '1',
-                    id: undefined
+                    ID: undefined
                 },
-                finishTime: '',//送达时间
+                finishTime: '',//delivery time
                 cartData: [],
-                note: ''//备注信息
+                note: ''//Remark information
             }
         },
         computed: {
@@ -148,12 +148,12 @@
                 history.go(-1)
             },
             initData() {
-                //获取默认的地址
+                //Get the default address
                 this.defaultAddress()
-                //获取购物车的商品
+                //Get the items in the shopping cart
                 this.getCartData()
             },
-            //获取默认地址
+            //Get the default address
             async defaultAddress() {
                 const res = await getDefaultAddressApi()
                 if (res.code === 1) {
@@ -165,7 +165,7 @@
                     })
                 }
             },
-            //获取送达时间
+            //Get delivery time
             getFinishTime() {
                 let now = new Date()
                 let hour = now.getHours() + 1
@@ -183,7 +183,7 @@
                     window.location.href = '/front/page/address.html'
                 })
             },
-            //获取购物车数据
+            //Get shopping cart data
             async getCartData() {
                 const res = await cartListApi({})
                 if (res.code === 1) {
@@ -207,7 +207,7 @@
                     this.$notify({type: 'warning', message: res.msg});
                 }
             },
-            //网络图片路径转换
+            //Network image path conversion
             imgPathConvert(path) {
                 return imgPath(path)
             },

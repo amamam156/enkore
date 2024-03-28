@@ -7,30 +7,30 @@ function isExternal(path) {
 }
 
 function isCellPhone(val) {
-    if (!/^1(3|4|5|6|7|8)\d{9}$/.test(val)) {
+    if (!/^\d{3}\d{3}\d{4}$/.test(val)) {
         return false
     } else {
         return true
     }
 }
 
-//校验账号
+//Verify account
 function checkUserName(rule, value, callback) {
     if (value == "") {
-        callback(new Error("请输入账号"))
+        callback(new Error("Please enter your account number"))
     } else if (value.length > 20 || value.length < 3) {
-        callback(new Error("账号长度应是3-20"))
+        callback(new Error("Account length should be 3-20"))
     } else {
         callback()
     }
 }
 
-//校验姓名
+//Verify name
 function checkName(rule, value, callback) {
     if (value == "") {
-        callback(new Error("请输入姓名"))
-    } else if (value.length > 12) {
-        callback(new Error("账号长度应是1-12"))
+        callback(new Error("Please enter your name"))
+    } else if (value.length > 50) {
+        callback(new Error("Name length should be 1-50"))
     } else {
         callback()
     }
@@ -39,9 +39,9 @@ function checkName(rule, value, callback) {
 function checkPhone(rule, value, callback) {
     // let phoneReg = /(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
     if (value == "") {
-        callback(new Error("请输入手机号"))
-    } else if (!isCellPhone(value)) {//引入methods中封装的检查手机格式的方法
-        callback(new Error("请输入正确的手机号!"))
+        callback(new Error("Please enter your mobile phone number"))
+    } else if (!isCellPhone(value)) {//Introduce the method of checking the mobile phone format encapsulated in methods
+        callback(new Error("Please enter the correct mobile phone number!"))
     } else {
         callback()
     }
@@ -49,13 +49,38 @@ function checkPhone(rule, value, callback) {
 
 
 function validID(rule, value, callback) {
-    // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
-    let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+    // The ID number is 15 or 18 digits. When it is 15 digits, it is all numbers. The first 17 digits of the 18 digits are numbers.
+    // The last digit is the check digit, which may be numbers or the character X.
+    let reg = /^\d{3}\d{2}\d{4}$/
     if (value == '') {
-        callback(new Error('请输入身份证号码'))
+        callback(new Error('Please enter your Social Security number'))
     } else if (reg.test(value)) {
         callback()
     } else {
-        callback(new Error('身份证号码不正确'))
+        callback(new Error('Social Security number is incorrect'))
+    }
+}
+
+function checkEmail(rule, value, callback) {
+
+    let reg = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/
+    if (value == '') {
+        callback(new Error('Please enter your email'))
+    } else if (reg.test(value)) {
+        callback()
+    } else {
+        callback(new Error('email is incorrect'))
+    }
+
+}
+
+function checkAddress(rule, value, callback) {
+
+    if (value == '') {
+        callback(new Error('Please enter your address'))
+    } else if (value.length > 50) {
+        callback(new Error("Address should be less than 50"))
+    }else{
+        callback();
     }
 }

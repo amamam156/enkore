@@ -109,7 +109,7 @@
 }
 
 .flavorBox .addBut {
-    background: #ffc200;
+    background: #c21bc2;
     display: inline-block;
     padding: 0px 20px;
     border-radius: 3px;
@@ -161,14 +161,14 @@
 
 .flavorBox .flavor .cont .items .labItems span {
     display: inline-block;
-    color: #f19c59;
+    color: #c21bc2;
     margin: 5px;
     line-height: 26px;
     height: 26px;
     padding: 0 10px;
-    background: #fdf4eb;
+    background: #efdcf4;
     border-radius: 3px;
-    border: solid 1px #fae2cd;
+    border: solid 1px #ca97d9;
 }
 
 .flavorBox .flavor .cont .items .labItems span i {
@@ -187,7 +187,7 @@
 .flavorBox .flavor .cont .items .delFlavor {
     display: inline-block;
     padding: 0 10px;
-    color: #f19c59;
+    color: #c21bc2;
     cursor: pointer;
 }
 

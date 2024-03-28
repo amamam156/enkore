@@ -1,4 +1,4 @@
-// 查询列表页接口
+// Query list page interface
 const getOrderDetailPage = (params) => {
     return $axios({
         url: '/order/page',
@@ -7,7 +7,7 @@ const getOrderDetailPage = (params) => {
     })
 }
 
-// 查看接口
+// View interface
 const queryOrderDetailById = (id) => {
     return $axios({
         url: `/orderDetail/${id}`,
@@ -15,7 +15,7 @@ const queryOrderDetailById = (id) => {
     })
 }
 
-// 取消，派送，完成接口
+// Cancel, dispatch, complete interface
 const editOrderDetail = (params) => {
     return $axios({
         url: '/order',

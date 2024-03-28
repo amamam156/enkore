@@ -54,7 +54,7 @@ public class ShoppingCartController
             Integer number = cartServiceOne.getNumber();
             cartServiceOne.setNumber(number + 1);
             shoppingCartService.updateById(cartServiceOne);
-        }else
+        } else
         {
             // not exited
             shoppingCart.setNumber(1);
@@ -65,11 +65,11 @@ public class ShoppingCartController
         return R.success(cartServiceOne);
     }
 
-
     // shopping car
 
     @GetMapping("/list")
-    public R<List<ShoppingCart>> list(){
+    public R<List<ShoppingCart>> list()
+    {
         log.info("Preview shopping cart...");
         LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ShoppingCart::getUserId, BaseContext.getCurrentId());
@@ -89,7 +89,7 @@ public class ShoppingCartController
 
         shoppingCartService.remove(queryWrapper);
 
-        return R.success("Clean Shopping Cart successful!");
+        return R.success("Clean Cart successful!");
 
     }
 }

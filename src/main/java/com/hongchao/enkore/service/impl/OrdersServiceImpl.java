@@ -38,15 +38,16 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     public void submit(Orders orders)
     {
         // gei id
-       Long userId = BaseContext.getCurrentId();
+        Long userId = BaseContext.getCurrentId();
 
         // check shopping cart
         LambdaQueryWrapper<ShoppingCart> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ShoppingCart::getUserId, userId);
         List<ShoppingCart> shoppingCarts = shoppingCartService.list(wrapper);
 
-        if (shoppingCarts == null|| shoppingCarts.size() == 0){
-            throw new CustomException("Order error: Shopping cart is empty!");
+        if (shoppingCarts == null || shoppingCarts.size() == 0)
+        {
+            throw new CustomException("Order error: Cart is empty!");
         }
         // check user
         User user = userService.getById(userId);
@@ -54,7 +55,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         // check address book
         Long addressBookId = orders.getAddressBookId();
         AddressBook addressBook = addressBookService.getById(userId);
-        if (addressBook == null){
+        if (addressBook == null)
+        {
             throw new CustomException("Order error: User address miss!");
         }
 
@@ -62,7 +64,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
         AtomicInteger amount = new AtomicInteger(0);
 
-        List<OrderDetail> orderDetails = shoppingCarts.stream().map((item) -> {
+        List<OrderDetail> orderDetails = shoppingCarts.stream().map((item) ->
+        {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrderId(ordersId);
             orderDetail.setNumber(item.getNumber());
@@ -76,21 +79,20 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             return orderDetail;
         }).collect(Collectors.toList());
 
-
         orders.setId(ordersId);
         orders.setOrderTime(LocalDateTime.now());
         orders.setCheckoutTime(LocalDateTime.now());
         orders.setStatus(2);
-        orders.setAmount(new BigDecimal(amount.get()));//总金额
+        orders.setAmount(new BigDecimal(amount.get()));//total price
         orders.setUserId(userId);
         orders.setNumber(String.valueOf(ordersId));
         orders.setUserName(user.getName());
         orders.setConsignee(addressBook.getConsignee());
         orders.setPhone(addressBook.getPhone());
-        orders.setAddress((addressBook.getProvinceName() == null ? "" : addressBook.getProvinceName())
-                + (addressBook.getCityName() == null ? "" : addressBook.getCityName())
-                + (addressBook.getDistrictName() == null ? "" : addressBook.getDistrictName())
-                + (addressBook.getDetail() == null ? "" : addressBook.getDetail()));
+        orders.setAddress((addressBook.getProvinceName() == null ? "" : addressBook.getProvinceName()) + (
+                addressBook.getCityName() == null ? "" : addressBook.getCityName()) + (
+                addressBook.getDistrictName() == null ? "" : addressBook.getDistrictName()) + (
+                addressBook.getDetail() == null ? "" : addressBook.getDetail()));
         // insert to list order
         this.save(orders);
         // insert to list order detail

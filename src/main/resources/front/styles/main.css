@@ -8,7 +8,7 @@
 #main .divHead {
     background: url(../images/mainBg.png);
     background-repeat: no-repeat;
-    height: 152rem;
+    height: 200rem;
     background-size: contain;
 }
 
@@ -108,7 +108,7 @@
 }
 
 #main .divBody .divType ul {
-    margin-top: 61rem;
+    margin-top: 6rem;
     overflow-y: auto;
     height: calc(100% - 61rem);
     padding-bottom: 200rem;
@@ -146,7 +146,7 @@
 }
 
 #main .divBody .divMenu > div {
-    margin-top: 61rem;
+    margin-top: 6rem;
     overflow-y: auto;
     height: calc(100% - 61rem);
     padding-bottom: 200rem;
@@ -248,7 +248,7 @@
     width: 64rem;
     height: 24rem;
     opacity: 1;
-    background: #ffc200;
+    background: #c21bc2;
     border-radius: 12rem;
     font-size: 12rem;
     font-family: PingFangSC, PingFangSC-Regular;
@@ -334,7 +334,7 @@
 
 #main .divCart .btnSubmitActive {
     color: #333333;
-    background: #ffc200;
+    background: #c21bc2;
 }
 
 #main .divCart .divGoodsNum {
@@ -424,7 +424,7 @@
     height: 30rem;
     opacity: 1;
     background: #ffffff;
-    border: 1rem solid #ffc200;
+    border: 1rem solid #c21bc2;
     border-radius: 7rem;
     line-height: 30rem;
     padding-left: 13rem;
@@ -438,7 +438,7 @@
 }
 
 #main .dialogFlavor .divContent .spanActive {
-    background: #ffc200;
+    background: #c21bc2;
     font-weight: 500;
 }
 
@@ -470,7 +470,7 @@
     width: 100rem;
     height: 30rem;
     opacity: 1;
-    background: #ffc200;
+    background: #c21bc2;
     border-radius: 15rem;
     text-align: center;
     line-height: 30rem;
@@ -707,7 +707,7 @@
     width: 64rem;
     height: 24rem;
     opacity: 1;
-    background: #ffc200;
+    background: #c21bc2;
     border-radius: 12rem;
     font-size: 12rem;
     font-family: PingFangSC, PingFangSC-Regular;
@@ -867,7 +867,7 @@ span:first-child {
     width: 64rem;
     height: 24rem;
     opacity: 1;
-    background: #ffc200;
+    background: #c21bc2;
     border-radius: 12rem;
     font-size: 12rem;
     font-family: PingFangSC, PingFangSC-Regular;
@@ -892,7 +892,7 @@ span:first-child {
     width: 100rem;
     height: 30rem;
     opacity: 1;
-    background: #ffc200;
+    background: #c21bc2;
     border-radius: 15rem;
     font-size: 14rem;
     font-family: PingFangSC, PingFangSC-Regular;

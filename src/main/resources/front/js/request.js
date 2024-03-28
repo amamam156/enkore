@@ -1,20 +1,20 @@
 (function (win) {
     axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
-    // 创建axios实例
+    //Create axios instance
     const service = axios.create({
-        // axios中请求配置有baseURL选项，表示请求URL公共部分
+        // The request configuration in axios has the baseURL option, which indicates the public total part of the request URL.
         baseURL: '/',
-        // 超时
+        // time out
         timeout: 1000000
     })
-    // request拦截器
+    // request interceptor
     service.interceptors.request.use(config => {
-        // 是否需要设置 token
+        //Do you need to set token?
         // const isToken = (config.headers || {}).isToken === false
         // if (getToken() && !isToken) {
-        //   config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+        // config.headers['Authorization'] = 'Bearer ' + getToken() // Let each request carry a custom token. Please modify it according to the actual situation.
         // }
-        // get请求映射params参数
+        // get request mapping params parameters
         if (config.method === 'get' && config.params) {
             let url = config.url + '?';
             for (const propName of Object.keys(config.params)) {
@@ -41,10 +41,10 @@
         Promise.reject(error)
     })
 
-    // 响应拦截器
+    //Response interceptor
     service.interceptors.response.use(res => {
-            console.log('---响应拦截器---', res)
-            if (res.data.code === 0 && res.data.msg === 'NOTLOGIN') {// 返回登录页面
+            console.log('---Response Interceptor---', res)
+            if (res.data.code === 0 && res.data.msg === 'NOTLOGIN') {// Return to the login page
                 window.top.location.href = '/front/page/login.html'
             } else {
                 return res.data
@@ -53,11 +53,11 @@
         error => {
             let {message} = error;
             if (message == "Network Error") {
-                message = "后端接口连接异常";
+                message = "Backend interface connection exception";
             } else if (message.includes("timeout")) {
-                message = "系统接口请求超时";
+                message = "System interface request timeout";
             } else if (message.includes("Request failed with status code")) {
-                message = "系统接口" + message.substr(message.length - 3) + "异常";
+                message = "System Interface" + message.substr(message.length - 3) + "Exception";
             }
             window.vant.Notify({
                 message: message,

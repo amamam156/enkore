@@ -1,3 +1,4 @@
+// Get member list function
 function getMemberList(params) {
     return $axios({
         url: '/employee/page',
@@ -6,7 +7,7 @@ function getMemberList(params) {
     })
 }
 
-// 修改---启用禁用接口
+// Modify - Enable or disable employee interface
 function enableOrDisableEmployee(params) {
     return $axios({
         url: '/employee',
@@ -15,7 +16,7 @@ function enableOrDisableEmployee(params) {
     })
 }
 
-// 新增---添加员工
+// Add - Add employee function
 function addEmployee(params) {
     return $axios({
         url: '/employee',
@@ -24,7 +25,7 @@ function addEmployee(params) {
     })
 }
 
-// 修改---添加员工
+// Modify - Edit employee function
 function editEmployee(params) {
     return $axios({
         url: '/employee',
@@ -33,7 +34,7 @@ function editEmployee(params) {
     })
 }
 
-// 修改页面反查详情接口
+// Edit page reverse lookup details interface
 function queryEmployeeById(id) {
     return $axios({
         url: `/employee/${id}`,

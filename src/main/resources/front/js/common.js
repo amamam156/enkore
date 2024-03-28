@@ -4,9 +4,9 @@ function imgPath(path) {
     return '/common/download?name=' + path
 }
 
-//将url传参转换为数组
+//Convert url parameters into array
 function parseUrl(url) {
-    // 找到url中的第一个?号
+    // Find the first ? number in the url
     var parse = url.substring(url.indexOf("?") + 1),
         params = parse.split("&"),
         len = params.length,

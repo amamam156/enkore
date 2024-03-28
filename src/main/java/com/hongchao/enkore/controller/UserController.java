@@ -91,7 +91,7 @@ public class UserController
         //        获取到验证码
         //        从Session中获取到保存的验证码
         //     将session中获取到的验证码和前端提交过来的验证码进行比较，这样就可以实现一个验证的方式
-        //        比对页面提交的验证码和session中
+        //        比对Page面提交的验证码和session中
         //判断当前的手机号在数据库查询是否有记录，如果没有记录，说明是一个新的用户，然后自动将这个手机号进行注册
         String email = map.get("email").toString();
         String code = map.get("code").toString();

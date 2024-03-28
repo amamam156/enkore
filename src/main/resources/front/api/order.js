@@ -1,4 +1,4 @@
-//提交订单
+// submit
 function addOrderApi(data) {
     return $axios({
         'url': '/order/submit',
@@ -7,7 +7,7 @@ function addOrderApi(data) {
     })
 }
 
-//查询所有订单
+// order history
 function orderListApi() {
     return $axios({
         'url': '/order/list',
@@ -15,7 +15,7 @@ function orderListApi() {
     })
 }
 
-//分页查询订单
+// page
 function orderPagingApi(data) {
     return $axios({
         'url': '/order/userPage',
@@ -24,7 +24,7 @@ function orderPagingApi(data) {
     })
 }
 
-//再来一单
+// order again
 function orderAgainApi(data) {
     return $axios({
         'url': '/order/again',

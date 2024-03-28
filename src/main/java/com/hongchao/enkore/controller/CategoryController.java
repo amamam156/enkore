@@ -26,7 +26,7 @@ public class CategoryController
     {
         log.info("category: {}", category);
         categoryService.save(category);
-        return R.success("Add new category successful!");
+        return R.success("Add category successful!");
     }
 
     // Paging query

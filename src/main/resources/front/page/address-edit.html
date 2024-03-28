@@ -5,17 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
-    <title>菩提阁</title>
+    <title>Enkore Karaoke</title>
     <link rel="icon" href="./../images/favico.ico">
-    <!--不同屏幕尺寸根字体设置-->
+    <!--Root font settings for different screen sizes-->
     <script src="./../js/base.js"></script>
-    <!--element-ui的样式-->
+    <!--element-ui style-->
     <link rel="stylesheet" href="../../backend/plugins/element-ui/index.css"/>
-    <!--引入vant样式-->
+    <!--Introducing vant style-->
     <link rel="stylesheet" href="../styles/vant.min.css"/>
-    <!-- 引入样式  -->
+    <!--Introduce styles -->
     <link rel="stylesheet" href="../styles/index.css"/>
-    <!--本页面内容的样式-->
+    <!--The style of the content of this Page-->
     <link rel="stylesheet" href="./../styles/address-edit.css"/>
 </head>
 <body>
@@ -27,47 +27,47 @@
     </div>
     <div class="divContent">
         <div class="divItem">
-            <span>联系人：</span>
-            <el-input placeholder=" 请填写收货人的姓名" v-model="form.consignee" maxlength='10' class="inputUser"/>
+            <span>Contact name：</span>
+            <el-input placeholder=" Please enter contact name" v-model="form.consignee" maxlength='10' class="inputUser"/>
             </el-input>
             <span class="spanChecked" @click="form.sex = '1'">
                     <i :class="{iActive:form.sex === '1'}"></i>
-                    先生
+                    Mr
                    </span>
             <span class="spanChecked" @click="form.sex = '0'">
                     <i :class="{iActive:form.sex === '0'}"></i>
-                    女士
+                    Mrs
                 </span>
         </div>
         <div class="divItem">
-            <span>手机号：</span>
-            <el-input placeholder=" 请填写收货人手机号码" v-model="form.phone" maxlength='20'
+            <span>Phone：</span>
+            <el-input placeholder=" Please enter phone" v-model="form.phone" maxlength='20'
                       style="width: calc(100% - 80rem);"/>
             </el-input>
         </div>
         <div class="divItem">
-            <span>收货地址：</span>
-            <el-input placeholder=" 请输入收货地址" v-model="form.detail" maxlength='140'/>
+            <span>Address：</span>
+            <el-input placeholder=" Please enter address" v-model="form.detail" maxlength='140'/>
             </el-input>
         </div>
         <div class="divItem ">
-            <span>标签：</span>
+            <span>Tag：</span>
             <span v-for="(item,index) in labelList" :key="index" @click="form.label = item;activeIndex = index"
                   :class="{spanItem:true,spanActiveSchool:activeIndex === index}">{{item}}</span>
         </div>
-        <div class="divSave" @click="saveAddress">保存地址</div>
-        <div class="divDelete" @click="deleteAddress" v-if="id">删除地址</div>
+        <div class="divSave" @click="saveAddress">Save</div>
+        <div class="divDelete" @click="deleteAddress" v-if="id">Delete</div>
     </div>
 </div>
-<!-- 开发环境版本,包含了有帮助的命令行警告 -->
+<!-- Development environment version, including helpful command line warnings -->
 <script src="../../backend/plugins/vue/vue.js"></script>
-<!-- 引入组件库 -->
+<!-- Import component library -->
 <script src="../../backend/plugins/element-ui/index.js"></script>
-<!-- 引入vant样式 -->
+<!-- Introduce vant style -->
 <script src="./../js/vant.min.js"></script>
 <script src="./../js/common.js"></script>
 <script src="./../api/address.js"></script>
-<!-- 引入axios -->
+<!-- Introduce axios -->
 <script src="../../backend/plugins/axios/axios.min.js"></script>
 <script src="./../js/request.js"></script>
 <script>
@@ -75,16 +75,16 @@
         el: "#address_edit",
         data() {
             return {
-                title: '新增收货地址',
+                title: 'Add address',
                 form: {
-                    consignee: '',//联系人
-                    phone: undefined,//手机号
-                    sex: '1',//0表示女 1 表示男
-                    detail: '',//收货地址
-                    label: '公司',//标签
+                    consignee: '',//Contact person
+                    phone: undefined,//Mobile phone number
+                    sex: '1',//0 means female and 1 means male
+                    detail: '',//receiving address
+                    label: 'company',//label
                 },
                 labelList: [
-                    '无', '公司', '家', '学校'
+                    'none', 'company', 'home', 'school'
                 ],
                 id: undefined,
                 activeIndex: 0
@@ -104,7 +104,7 @@
                 const params = parseUrl(window.location.search)
                 this.id = params.id
                 if (params.id) {
-                    this.title = '编辑收货地址'
+                    this.title = 'Edit address'
                     const res = await addressFindOneApi(params.id)
                     if (res.code === 1) {
                         this.form = res.data
@@ -116,20 +116,20 @@
             async saveAddress() {
                 const form = this.form
                 if (!form.consignee) {
-                    this.$notify({type: 'warning', message: '请输入联系人'});
+                    this.$notify({type: 'warning', message: 'Please enter name'});
                     return
                 }
                 if (!form.phone) {
-                    this.$notify({type: 'warning', message: '请输入手机号'});
+                    this.$notify({type: 'warning', message: 'Please enter phone'});
                     return
                 }
                 if (!form.detail) {
-                    this.$notify({type: 'warning', message: '请输入收货地址'});
+                    this.$notify({type: 'warning', message: 'Please enter address'});
                     return
                 }
-                const reg = /^1[3|4|5|7|8][0-9]{9}$/
+                const reg = /^\d{3}\d{3}\d{4}$/
                 if (!reg.test(form.phone)) {
-                    this.$notify({type: 'warning', message: '手机号码不合法'});
+                    this.$notify({type: 'warning', message: 'Phone number incorrect'});
                     return
                 }
                 let res = {}
@@ -149,8 +149,8 @@
             },
             deleteAddress() {
                 this.$dialog.confirm({
-                    title: '确认删除',
-                    message: '确认要删除当前地址吗？',
+                    title: 'Confirm delete',
+                    message: 'Are you sure you want to delete the current address?',
                 })
                     .then(async () => {
                         const res = await deleteAddressApi({ids: this.id})
