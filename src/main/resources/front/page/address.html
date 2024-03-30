@@ -28,12 +28,12 @@
     <div class="divContent">
         <div class="divItem" v-for="(item,index) in addressList" :key="index" @click.capture="itemClick(item)">
             <div class="divAddress">
-                <span :class="{spanCompany:item.label === 'Company',spanHome:item.label === 'Home',spanSchool:item.label === 'School'}">{{item.label}}</span>
+                <span :class="{spanCompany:item.label === 'work',spanHome:item.label === 'home',spanSchool:item.label === 'school'}">{{item.label}}</span>
                 {{item.detail}}
             </div>
             <div class="divUserPhone">
+                <span>{{item.sex === '0' ? 'Mrs.' : 'Mr.'}}</span>
                 <span>{{item.consignee}}</span>
-                <span>{{item.sex === '0' ? 'Mrs' : 'Mr'}}</span>
                 <span>{{item.phone}}</span>
             </div>
             <img src="./../images/edit.png" @click.stop.prevent="toAddressEditPage(item)"/>

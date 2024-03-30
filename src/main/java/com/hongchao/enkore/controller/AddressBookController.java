@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * 地址簿管理
- */
+// address book
 @Slf4j
 @RestController
 @RequestMapping("/addressBook")
@@ -26,9 +24,7 @@ public class AddressBookController
     @Autowired
     private AddressBookService addressBookService;
 
-    /**
-     * 新增
-     */
+    // add
     @PostMapping
     public R<AddressBook> save(@RequestBody AddressBook addressBook)
     {
@@ -38,9 +34,7 @@ public class AddressBookController
         return R.success(addressBook);
     }
 
-    /**
-     * 设置默认地址
-     */
+    // set as default
     @PutMapping("default")
     public R<AddressBook> setDefault(@RequestBody AddressBook addressBook)
     {
@@ -57,9 +51,7 @@ public class AddressBookController
         return R.success(addressBook);
     }
 
-    /**
-     * 根据id查询地址
-     */
+    // get id
     @GetMapping("/{id}")
     public R get(@PathVariable Long id)
     {
@@ -69,13 +61,11 @@ public class AddressBookController
             return R.success(addressBook);
         } else
         {
-            return R.error("没有找到该对象");
+            return R.error("No object");
         }
     }
 
-    /**
-     * 查询默认地址
-     */
+    // get default
     @GetMapping("default")
     public R<AddressBook> getDefault()
     {
@@ -88,23 +78,21 @@ public class AddressBookController
 
         if (null == addressBook)
         {
-            return R.error("没有找到该对象");
+            return R.error("No object");
         } else
         {
             return R.success(addressBook);
         }
     }
 
-    /**
-     * 查询指定用户的全部地址
-     */
+    // address list
     @GetMapping("/list")
     public R<List<AddressBook>> list(AddressBook addressBook)
     {
         addressBook.setUserId(BaseContext.getCurrentId());
         log.info("addressBook:{}", addressBook);
 
-        //条件构造器
+        // create filter
         LambdaQueryWrapper<AddressBook> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(null != addressBook.getUserId(), AddressBook::getUserId, addressBook.getUserId());
         queryWrapper.orderByDesc(AddressBook::getUpdateTime);
@@ -118,9 +106,17 @@ public class AddressBookController
     {
         if (addressBook == null)
         {
-            throw new CustomException("地址信息不存在，请刷新重试");
+            throw new CustomException("The address information does not exist, please refresh and try again");
         }
         addressBookService.updateById(addressBook);
-        return R.success("地址修改成功");
+        return R.success("Edit address successful");
+    }
+    @DeleteMapping
+    public R<String> delete(@RequestParam List<Long> ids)
+    {
+        log.info("delete address, id is: {}", ids);
+        addressBookService.removeByIds(ids);
+        return R.success("Delete address successful!");
     }
 }
+

@@ -95,10 +95,10 @@
 }
 
 #address_edit .divContent .divItem .spanItem {
-    width: 34rem;
+    width: 50rem;
     height: 20rem;
     opacity: 1;
-    border: 1px solid #e5e4e4;
+    border: 1px solid #ab1eab;
     border-radius: 3rem;
     text-align: center;
     margin-right: 10rem;
@@ -109,15 +109,15 @@
 }
 
 #address_edit .divContent .divItem .spanActiveCompany {
-    background: #e1f1fe;
+    background: #ab1eab;
 }
 
 #address_edit .divContent .divItem .spanActiveHome {
-    background: #fef8e7;
+    background: #d564d5;
 }
 
 #address_edit .divContent .divItem .spanActiveSchool {
-    background: #e7fef8;
+    background: #e1a8e1;
 }
 
 #address_edit .divContent .divItem .el-input__inner {

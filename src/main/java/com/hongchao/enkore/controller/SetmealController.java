@@ -8,6 +8,7 @@ import com.hongchao.enkore.common.R;
 import com.hongchao.enkore.dto.SetmealDto;
 import com.hongchao.enkore.entity.Category;
 import com.hongchao.enkore.entity.Setmeal;
+import com.hongchao.enkore.entity.SetmealDish;
 import com.hongchao.enkore.service.CategoryService;
 import com.hongchao.enkore.service.SetmealDishService;
 import com.hongchao.enkore.service.SetmealService;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -130,4 +132,33 @@ public class SetmealController
 
         return R.success(list);
     }
+
+    @GetMapping("/{id}")
+    public R<SetmealDto> getById(@PathVariable Long id)
+    {
+        Setmeal setmeal = setmealService.getById(id);
+        SetmealDto setmealDto = new SetmealDto();
+        // copy to Dto
+        BeanUtils.copyProperties(setmeal, setmealDto);
+
+        LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SetmealDish::getSetmealId, id);
+
+        List<SetmealDish> setmealDishes = setmealDishService.list(queryWrapper);
+
+        setmealDto.setSetmealDishes(setmealDishes);
+
+        return R.success(setmealDto);
+    }
+
+
+    @PutMapping
+    public R<String> update(@RequestBody SetmealDto setmealDto)
+    {
+        log.info("Meal: {}", setmealDto);
+        setmealService.updateWithDish(setmealDto);
+        return R.success("Update meal successful!");
+    }
+
 }
+

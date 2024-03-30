@@ -58,7 +58,8 @@
                 </div>
             </div>
             <div class="result">
-                <span>{{order[0].sumNum}} item,Subtotal</span>
+                <span>{{order[0].sumNum}} item,Subtotal </span>
+                <span class="spacer"></span>
                 <span class="price">${{order[0].amount}}</span>
             </div>
             <div class="btn" v-if="order[0].status === 4">

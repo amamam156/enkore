@@ -45,7 +45,9 @@
                     </div>
                 </div>
                 <div class="result">
-                    <span>{{order.sumNum}} item,Subtotal</span><span class="price">${{order.amount}}</span>
+                    <span>{{order.sumNum}} item,Subtotal</span>
+                    <span class="spacer"></span>
+                    <span class="price">${{order.amount}}</span>
                 </div>
                 <div class="btn" v-if="order.status === 4">
                     <div class="btnAgain" @click="addOrderAgain(order)">Order again</div>

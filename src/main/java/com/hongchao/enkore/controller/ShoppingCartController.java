@@ -92,4 +92,60 @@ public class ShoppingCartController
         return R.success("Clean Cart successful!");
 
     }
+
+    @PostMapping("/sub")
+    public R<ShoppingCart> remove(@RequestBody ShoppingCart shoppingCart)
+    {
+
+        log.info("Shopping cart: {}", shoppingCart);
+        // set user id
+        Long currencyId = BaseContext.getCurrentId();
+        shoppingCart.setUserId(currencyId);
+        Long dishId = shoppingCart.getDishId();
+        Long setmealId = shoppingCart.getSetmealId();
+
+        // check
+        LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ShoppingCart::getUserId, currencyId);
+        if (dishId != null)
+        {
+            // dish
+            queryWrapper.eq(ShoppingCart::getDishId, dishId);
+            ShoppingCart dishCart = shoppingCartService.getOne(queryWrapper);
+            Integer dishCartNumber = dishCart.getNumber();
+            if (dishCartNumber == 1)
+            {
+                dishCart.setNumber(0);
+                shoppingCartService.removeById(dishCart.getId());
+
+            } else if (dishCartNumber > 1)
+            {
+                dishCart.setNumber(dishCartNumber - 1);
+                shoppingCartService.updateById(dishCart);
+            }
+            return R.success(dishCart);
+        }
+        if (setmealId != null)
+        {
+            // meal
+            queryWrapper.eq(ShoppingCart::getSetmealId, shoppingCart.getSetmealId());
+
+            // check if exited
+            ShoppingCart mealCart = shoppingCartService.getOne(queryWrapper);
+            Integer mealCartNumber = mealCart.getNumber();
+            if (mealCartNumber > 1)
+            {
+                mealCart.setNumber(mealCartNumber - 1);
+                shoppingCartService.updateById(mealCart);
+            } else if (mealCartNumber == 1)
+            {
+                mealCart.setNumber(0);
+                shoppingCartService.removeById(mealCart.getId());
+            }
+            return R.success(mealCart);
+
+        }
+        return R.error("Unknown error");
+
+    }
 }

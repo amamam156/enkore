@@ -59,8 +59,8 @@
                     <div>
                         <div class="divName">{{item.name}}</div>
                         <div class="divDesc">{{item.description}}</div>
-                        <div class="divDesc">{{'Sold' + (item.saleNum ? item.saleNum : 0) }}</div>
-                        <div class="divBottom"><span>￥</span><span>{{item.price / 100}}</span></div>
+                        <div class="divDesc">{{(item.saleNum ? item.saleNum : 0) + ' Sold' }}</div>
+                        <div class="divBottom"><span>$</span><span>{{item.price / 100}}</span></div>
                         <div class="divNum">
                             <div class="divSubtract" v-if="item.number > 0">
                                 <img src="./images/subtract.png" @click.prevent.stop="subtractCart(item)"/>
@@ -90,7 +90,7 @@
              v-if="cartData && cartData.length > 0">{{ goodsNum }}
         </div>
         <div class="divNum">
-            <span>￥</span>
+            <span>$</span>
             <span>{{goodsPrice}}</span>
         </div>
         <div class="divPrice"></div>
@@ -202,7 +202,7 @@
                         <img src="./images/noImg.png"/>
                     </div>
                 </el-image>
-                <div class="divSubTitle">{{item.name + '(' + item.copies + 'item)' }}
+                <div class="divSubTitle">{{item.name + '(' + item.copies + ' item)' }}
                     <div class="divPrice">
                         <span>￥</span><span>{{item.price / 100}}</span>
                     </div>

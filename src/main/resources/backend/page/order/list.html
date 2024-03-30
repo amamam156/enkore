@@ -26,7 +26,7 @@
             display: flex;
             height: 20px;
             line-height: 20px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 400;
             color: #666666;
             text-align: left;
@@ -38,7 +38,7 @@
         }
 
         .info-box .item-box .label {
-            width: 96px;
+            width: 120px;
         }
 
         .info-box .item-box .des {
@@ -59,45 +59,45 @@
                             clearable
                             value-format="yyyy-MM-dd HH:mm:ss"
                             type="datetimerange"
-                            placeholder="Select date"
+                            placeholder="Select time"
                             range-separator="to"
-                            start-placeholder="Start date"
-                            end-placeholder="End date"
+                            start-placeholder="Start time"
+                            end-placeholder="End time"
                             :default-time="['00:00:00', '23:59:59']"
                             style="width: 400px;margin-left: 20px;"
             ></el-date-picker>
-            <el-button type="primary" class="search-btn" @click="init">Order history</el-button>
+            <el-button type="primary" class="search-btn" @click="init">Search</el-button>
         </div>
         <el-table :data="tableData" stripe class="tableBox">
             <el-table-column prop="number" label="Order number" min-width="110"></el-table-column>
-            <el-table-column prop="Order status" label="Order status">
+            <el-table-column prop="Order status" label="Status">
                 <template slot-scope="{ row }">
                     <span>{{ getOrderType(row) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="userName" label="User name"></el-table-column>
+            <el-table-column prop="consignee" label="Name"></el-table-column>
             <el-table-column prop="phone" label="Phone"></el-table-column>
             <el-table-column prop="address" label="Address" show-overflow-tooltip></el-table-column>
             <el-table-column prop="orderTime" label="Order time" min-width="100"></el-table-column>
             <el-table-column prop="amount" label="Amount">
                 <template slot-scope="{ row }">
-                    <span>￥{{ row.amount }}</span>
+                    <span>${{ row.amount }}</span>
                 </template>
             </el-table-column>
             <el-table-column prop="btn" label="Action">
                 <template slot-scope="{ row }">
                     <el-button type="text" @click="goDetail(row)" class="blueBug">
-                        Order history
+                        Order detail
                     </el-button>
                     <el-divider v-if="row.status === 2" direction="vertical"></el-divider>
                     <el-button v-if="row.status === 2" type="text" @click="cancelOrDeliveryOrComplete(3, row.id)"
                                class="blueBug">
-                        Delivery
+                        Delivered
                     </el-button>
                     <el-divider v-if="row.status === 3" direction="vertical"></el-divider>
                     <el-button v-if="row.status === 3" type="text" @click="cancelOrDeliveryOrComplete(4, row.id)"
                                class="blueBug">
-                        Complete
+                        Completed
                     </el-button>
                 </template>
             </el-table-column>

@@ -3,6 +3,7 @@ package com.hongchao.enkore.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hongchao.enkore.common.CustomException;
+import com.hongchao.enkore.common.R;
 import com.hongchao.enkore.dto.SetmealDto;
 import com.hongchao.enkore.entity.Dish;
 import com.hongchao.enkore.entity.Setmeal;
@@ -25,6 +26,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> implements SetmealService
 {
+
+    @Autowired
+    private SetmealService setmealService;
 
     @Autowired
     private SetmealDishService setmealDishService;
@@ -106,5 +110,26 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
             setmealMapper.updateById(meal);
 
         });
+    }
+
+    @Transactional
+    public void updateWithDish(SetmealDto setmealDto)
+    {
+        List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes();
+        Long setmealId = setmealDto.getId();
+        // delete
+        LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SetmealDish::getSetmealId,setmealId);
+        setmealDishService.remove(queryWrapper);
+        // re-add
+        setmealDishes = setmealDishes.stream().map((item) ->{
+            //这属性没有，需要我们手动设置一下
+            item.setSetmealId(setmealId);
+            return item;
+        }).collect(Collectors.toList());
+        // update
+        setmealService.updateById(setmealDto);
+        // update dishes
+        setmealDishService.saveBatch(setmealDishes);
     }
 }

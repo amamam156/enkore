@@ -73,7 +73,7 @@
 }
 
 #address .divContent .divItem .divAddress span {
-    width: 34rem;
+    width: 50rem;
     height: 20rem;
     opacity: 1;
     font-size: 12rem;
@@ -105,11 +105,11 @@
 }
 
 #address .divContent .divItem .divAddress .spanHome {
-    background: #fef8e7;
+    background: #d564d5;
 }
 
 #address .divContent .divItem .divAddress .spanSchool {
-    background: #e7fef8;
+    background: #bb9dbb;
 }
 
 #address .divContent .divItem .divSplit {

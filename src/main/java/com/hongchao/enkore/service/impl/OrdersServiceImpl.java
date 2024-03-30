@@ -1,6 +1,7 @@
 package com.hongchao.enkore.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -32,6 +34,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     private AddressBookService addressBookService;
     @Autowired
     private OrderDetailService orderDetailService;
+    @Autowired
+    private OrdersService ordersService;
 
     @Override
     @Transactional
@@ -54,7 +58,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
         // check address book
         Long addressBookId = orders.getAddressBookId();
-        AddressBook addressBook = addressBookService.getById(userId);
+        AddressBook addressBook = addressBookService.getById(addressBookId);
         if (addressBook == null)
         {
             throw new CustomException("Order error: User address miss!");
@@ -100,5 +104,16 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
         // clean shopping cart
         shoppingCartService.remove(wrapper);
+    }
+
+    @Transactional
+    public void updateStatus(Orders orders){
+        Long orderId = orders.getId();
+        int status = orders.getStatus();
+        log.info("Update status: {}", status, orderId);
+        LambdaUpdateWrapper<Orders> queryWrapper = new LambdaUpdateWrapper<>();
+        queryWrapper.eq(Orders::getId, orderId);
+        queryWrapper.set(Orders::getStatus, status);
+        ordersService.update(queryWrapper);
     }
 }

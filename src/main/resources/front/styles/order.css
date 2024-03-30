@@ -151,3 +151,7 @@
     height: 33rem;
     margin-top: 20rem;
 }
+
+.spacer {
+    margin-right: 5px; /* move right */
+}

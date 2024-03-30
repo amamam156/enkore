@@ -238,3 +238,11 @@
     color: #333333;
     line-height: 50rem;
 }
+
+.spacer {
+    margin-right: 5px; /* move right */
+}
+
+span {
+    font-size: 14px;
+}

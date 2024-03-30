@@ -20,4 +20,7 @@ public interface SetmealService extends IService<Setmeal>
 
     // start status
     public void startStatus(String ids);
+
+    // update
+    public void updateWithDish(SetmealDto setmealDto);
 }

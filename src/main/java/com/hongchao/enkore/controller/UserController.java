@@ -1,6 +1,7 @@
 package com.hongchao.enkore.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hongchao.enkore.common.R;
 import com.hongchao.enkore.entity.User;
 import com.hongchao.enkore.service.UserService;
@@ -12,10 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.annotation.Resources;
@@ -39,99 +37,86 @@ public class UserController
     @PostMapping("/sendMsg")
     private R<String> sendMsg(@RequestBody User user, HttpSession session)
     {
-        //        这里用qq邮箱去发送验证码
-        //获取到前端提交过来的qq号
+
+        // Get the email submitted by the front end
         String email = user.getEmail();
-        //这里工具类判是否为空
+        // Is it empty?
         if (StringUtils.isNotEmpty(email))
         {
-            //            这里用到生成验证码的工具类
-            String code = ValidateCodeUtils.generateValidateCode(4).toString();//生成四位的验证码
+            // Generate verification code
+            String code = ValidateCodeUtils.generateValidateCode(4).toString();//Generate a four-digit verification code
             log.info("code={}", code);
-            //            构建一个邮件的对象
+            //Construct an email object
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-            //          设置邮件发件者
+            //Set the email sender
             simpleMailMessage.setFrom(from);
-            //            设置邮件接受者
+            //Set email recipients
             simpleMailMessage.setTo(email);
-            //            设置有纪念的主题
-            simpleMailMessage.setSubject("登录验证码");
-            //            设置邮件的征文
-            String text = "[瑞吉外卖] 您的验证码为" + code + "请勿泄露";
+            //Set a commemorative theme
+            simpleMailMessage.setSubject("Login verification code");
+            //Set up the email solicitation
+            String text = "[Enkore Karaoke] Your verification code is" + code + "Do not disclose";
             simpleMailMessage.setText(text);
-            //将生成的验证码保存到Session
-            //            将我们生成的手机号和验证码放到session里面，我们后面用户填入验证码之后，我们验证的时候就从这里去取然后进行比对
-            //这里我们需要一个异常捕获
+
             session.setAttribute(email, code);
-            //            return R.success("手机验证码短信发送成功");
+            // return R.success("Mobile phone verification code SMS sent successfully");
             try
             {
                 // javaMailSender.send(simpleMailMessage);
                 log.info(code);
-                return R.success("手机验证码短信发送成功");
+                return R.success("verification code sent successful");
             } catch (MailException e)
             {
                 e.printStackTrace();
             }
 
         }
-        return R.error("手机验证码发送失败");
+        return R.error("Failed to send verification code");
 
     }
 
-    //    移动应用登录端
+    //Mobile application login terminal
     @PostMapping("/login")
-    //    这里使用map来接收前端传过来的值
+    // Use map here to receive the value passed by the front end
     private R<User> login(@RequestBody Map map, HttpSession session)
     {
         log.info(map.toString());
-        //        使用map来接收参数,接收键值参数、
-        //        编写处理逻辑
-        //        获取到手机号
-        //        获取到验证码
-        //        从Session中获取到保存的验证码
-        //     将session中获取到的验证码和前端提交过来的验证码进行比较，这样就可以实现一个验证的方式
-        //        比对Page面提交的验证码和session中
-        //判断当前的手机号在数据库查询是否有记录，如果没有记录，说明是一个新的用户，然后自动将这个手机号进行注册
+
+        //Determine whether the current mobile phone number is recorded in the database query. If there is no record, it means that it is a new user, and then the mobile phone number will be automatically registered.
         String email = map.get("email").toString();
         String code = map.get("code").toString();
-        //获取session中phone字段对应的验证码
+        //Get the verification code corresponding to the phone field in the session
         Object codeInSession = session.getAttribute(email);
-        //        下面进行比对
+        // Compare below
         if (codeInSession != null && codeInSession.equals(code))
         {
             LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
-            //            在表中根据号码来查询是否存在该邮箱用户
+            // Query whether the email user exists based on the number in the table
             userLambdaQueryWrapper.eq(User::getEmail, email);
             User user = userService.getOne(userLambdaQueryWrapper);
             if (user == null)
             {
-                //判断当前手机号对应的用户是否为新用户，如果是新用户就自动完成注册
+                //Determine whether the user corresponding to the current mobile phone number is a new user. If it is a new user, the registration will be automatically completed.
                 user = new User();
                 user.setEmail(email);
                 user.setStatus(1);
                 userService.save(user);
             }
-            //            这里我们将user存储进去，后面各项操作，我们会用，其中拦截器那边会判断用户是否登录，所以我们将这个存储进去，
+            // Here we store the user, which we will use for subsequent operations. The interceptor will determine whether the user is logged in, so we store this in.
             session.setAttribute("user", user.getId());
 
             return R.success(user);
         }
-        return R.error("验证失败");
+        return R.error("Verification failed");
     }
 
-    /**
-     * 退出登录
-     *
-     * @param session
-     * @return
-     */
+   // logout
     @PostMapping("/loginout")
     public R<String> loginout(HttpSession session)
     {
-        //清除session中的id。
+        //Clear the id in the session.
         session.removeAttribute("user");
-        return R.success("退出登录成功");
+        return R.success("Logout successful");
     }
 
 }

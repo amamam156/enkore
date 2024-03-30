@@ -7,4 +7,7 @@ public interface OrdersService extends IService<Orders>
 {
     // user order
     public void submit(Orders orders);
+
+    // update status
+    public  void updateStatus(Orders orders);
 }
