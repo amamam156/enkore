@@ -7,10 +7,12 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hongchao.enkore.common.BaseContext;
 import com.hongchao.enkore.common.CustomException;
+import com.hongchao.enkore.common.R;
 import com.hongchao.enkore.entity.*;
 import com.hongchao.enkore.mapper.OrdersMapper;
 import com.hongchao.enkore.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +39,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     @Autowired
     private OrdersService ordersService;
 
-    @Override
+
     @Transactional
     public void submit(Orders orders)
     {
@@ -116,4 +118,25 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         queryWrapper.set(Orders::getStatus, status);
         ordersService.update(queryWrapper);
     }
+
+    public void orderAgain(Orders orders){
+        Long orderId = orders.getId();
+        Long userId = orders.getUserId();
+
+        LambdaQueryWrapper<OrderDetail> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(OrderDetail::getId, orderId);
+        List<OrderDetail> orderDetails = orderDetailService.list(queryWrapper);
+        List<ShoppingCart> shoppingCarts = orderDetails.stream().map((item) ->{
+
+            ShoppingCart shoppingCart = new ShoppingCart();
+            BeanUtils.copyProperties(item, shoppingCart);
+            shoppingCart.setUserId(userId);
+            shoppingCart.setCreateTime(LocalDateTime.now());
+            return shoppingCart;
+        }).collect(Collectors.toList());
+        shoppingCartService.saveBatch(shoppingCarts);
+    }
+
 }
+
+

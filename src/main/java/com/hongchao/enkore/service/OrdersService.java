@@ -10,4 +10,7 @@ public interface OrdersService extends IService<Orders>
 
     // update status
     public  void updateStatus(Orders orders);
+
+    // order again
+    public void orderAgain(Orders orders);
 }

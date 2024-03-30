@@ -111,7 +111,7 @@
             </div>
         </div>
         <div class="divBottom">
-            <div><span class="spanMoney">￥</span>{{dialogFlavor.price / 100}}</div>
+            <div><span class="spanMoney">$</span>{{dialogFlavor.price / 100}}</div>
             <div @click="dialogFlavorAddCart">Add Cart</div>
         </div>
         <div class="divFlavorClose" @click="dialogFlavor.show = false">
@@ -135,7 +135,7 @@
                 <div class="divDesc">
                     <div class="name">{{item.name}}</div>
                     <div class="price">
-                        <span class="spanMoney">￥</span>{{item.amount}}
+                        <span class="spanMoney">$</span>{{item.amount}}
                     </div>
                 </div>
                 <div class="divNum">
@@ -168,7 +168,7 @@
         </div>
         <div class="divNum">
             <div class="left">
-                <span>￥</span><span>{{detailsDialog.item.price / 100}}</span>
+                <span>$</span><span>{{detailsDialog.item.price / 100}}</span>
             </div>
             <div class="right">
                 <div class="divSubtract" v-if="detailsDialog.item.number > 0">
@@ -204,7 +204,7 @@
                 </el-image>
                 <div class="divSubTitle">{{item.name + '(' + item.copies + ' item)' }}
                     <div class="divPrice">
-                        <span>￥</span><span>{{item.price / 100}}</span>
+                        <span>$</span><span>{{item.price / 100}}</span>
                     </div>
                 </div>
                 <div class="content">{{item.description}}</div>

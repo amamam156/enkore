@@ -119,4 +119,11 @@ public class OrdersController
         return R.success("update status successful");
     }
 
+    @PostMapping("/again")
+    public R<String> orderAgain(@RequestBody Orders orders){
+        log.info("order again: {}", orders);
+        ordersService.orderAgain(orders);
+        return R.success("order again succesful");
+    }
+
 }
