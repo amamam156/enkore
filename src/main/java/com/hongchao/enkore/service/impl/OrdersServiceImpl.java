@@ -43,69 +43,77 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     @Transactional
     public void submit(Orders orders)
     {
-        // gei id
-        Long userId = BaseContext.getCurrentId();
+        try {
+            // gei id
+            Long userId = BaseContext.getCurrentId();
 
-        // check shopping cart
-        LambdaQueryWrapper<ShoppingCart> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ShoppingCart::getUserId, userId);
-        List<ShoppingCart> shoppingCarts = shoppingCartService.list(wrapper);
+            // check shopping cart
+            LambdaQueryWrapper<ShoppingCart> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(ShoppingCart::getUserId, userId);
+            List<ShoppingCart> shoppingCarts = shoppingCartService.list(wrapper);
 
-        if (shoppingCarts == null || shoppingCarts.size() == 0)
-        {
-            throw new CustomException("Order error: Cart is empty!");
+            if (shoppingCarts == null || shoppingCarts.size() == 0)
+            {
+                throw new CustomException("Order error: Cart is empty!");
+            }
+            // check user
+            User user = userService.getById(userId);
+            if (user == null) {
+                throw new CustomException("Order error: User not found!");
+            }
+
+            // check address book
+            Long addressBookId = orders.getAddressBookId();
+            AddressBook addressBook = addressBookService.getById(addressBookId);
+            if (addressBook == null)
+            {
+                throw new CustomException("Order error: User address miss!");
+            }
+
+            Long ordersId = IdWorker.getId(); // order number
+
+            AtomicInteger amount = new AtomicInteger(0);
+
+            List<OrderDetail> orderDetails = shoppingCarts.stream().map((item) ->
+            {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setOrderId(ordersId);
+                orderDetail.setNumber(item.getNumber());
+                orderDetail.setDishFlavor(item.getDishFlavor());
+                orderDetail.setDishId(item.getDishId());
+                orderDetail.setSetmealId(item.getSetmealId());
+                orderDetail.setName(item.getName());
+                orderDetail.setImage(item.getImage());
+                orderDetail.setAmount(item.getAmount());
+                amount.addAndGet(item.getAmount().multiply(new BigDecimal(item.getNumber())).intValue());
+                return orderDetail;
+            }).collect(Collectors.toList());
+
+            orders.setId(ordersId);
+            orders.setOrderTime(LocalDateTime.now());
+            orders.setCheckoutTime(LocalDateTime.now());
+            orders.setStatus(2);
+            orders.setAmount(new BigDecimal(amount.get()));//total price
+            orders.setUserId(userId);
+            orders.setNumber(String.valueOf(ordersId));
+            orders.setUserName(user.getName());
+            orders.setConsignee(addressBook.getConsignee());
+            orders.setPhone(addressBook.getPhone());
+            orders.setAddress((addressBook.getProvinceName() == null ? "" : addressBook.getProvinceName()) + (
+                    addressBook.getCityName() == null ? "" : addressBook.getCityName()) + (
+                    addressBook.getDistrictName() == null ? "" : addressBook.getDistrictName()) + (
+                    addressBook.getDetail() == null ? "" : addressBook.getDetail()));
+            // insert to list order
+            this.save(orders);
+            // insert to list order detail
+            orderDetailService.saveBatch(orderDetails);
+
+            // clean shopping cart
+            shoppingCartService.remove(wrapper);
+        } catch (Exception e) {
+            log.error("Error submitting order: ", e);
+            throw new CustomException("Order submission failed due to an internal error.");
         }
-        // check user
-        User user = userService.getById(userId);
-
-        // check address book
-        Long addressBookId = orders.getAddressBookId();
-        AddressBook addressBook = addressBookService.getById(addressBookId);
-        if (addressBook == null)
-        {
-            throw new CustomException("Order error: User address miss!");
-        }
-
-        Long ordersId = IdWorker.getId(); // order number
-
-        AtomicInteger amount = new AtomicInteger(0);
-
-        List<OrderDetail> orderDetails = shoppingCarts.stream().map((item) ->
-        {
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrderId(ordersId);
-            orderDetail.setNumber(item.getNumber());
-            orderDetail.setDishFlavor(item.getDishFlavor());
-            orderDetail.setDishId(item.getDishId());
-            orderDetail.setSetmealId(item.getSetmealId());
-            orderDetail.setName(item.getName());
-            orderDetail.setImage(item.getImage());
-            orderDetail.setAmount(item.getAmount());
-            amount.addAndGet(item.getAmount().multiply(new BigDecimal(item.getNumber())).intValue());
-            return orderDetail;
-        }).collect(Collectors.toList());
-
-        orders.setId(ordersId);
-        orders.setOrderTime(LocalDateTime.now());
-        orders.setCheckoutTime(LocalDateTime.now());
-        orders.setStatus(2);
-        orders.setAmount(new BigDecimal(amount.get()));//total price
-        orders.setUserId(userId);
-        orders.setNumber(String.valueOf(ordersId));
-        orders.setUserName(user.getName());
-        orders.setConsignee(addressBook.getConsignee());
-        orders.setPhone(addressBook.getPhone());
-        orders.setAddress((addressBook.getProvinceName() == null ? "" : addressBook.getProvinceName()) + (
-                addressBook.getCityName() == null ? "" : addressBook.getCityName()) + (
-                addressBook.getDistrictName() == null ? "" : addressBook.getDistrictName()) + (
-                addressBook.getDetail() == null ? "" : addressBook.getDetail()));
-        // insert to list order
-        this.save(orders);
-        // insert to list order detail
-        orderDetailService.saveBatch(orderDetails);
-
-        // clean shopping cart
-        shoppingCartService.remove(wrapper);
     }
 
     @Transactional

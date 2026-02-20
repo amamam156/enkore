@@ -3,14 +3,14 @@ package com.hongchao.enkore.utils;
 import java.util.Random;
 
 /**
- * 随机生成验证码工具类
+ * Utility class for generating random verification codes
  */
 public class ValidateCodeUtils
 {
     /**
-     * 随机生成验证码
+     * Generate a random verification code
      *
-     * @param length 长度为4位或者6位
+     * @param length The length can be 4 or 6 digits
      * @return
      */
     public static Integer generateValidateCode(int length)
@@ -18,29 +18,29 @@ public class ValidateCodeUtils
         Integer code = null;
         if (length == 4)
         {
-            code = new Random().nextInt(9999);//生成随机数，最大为9999
+            code = new Random().nextInt(9999);// Generate a random number, maximum 9999
             if (code < 1000)
             {
-                code = code + 1000;//保证随机数为4位数字
+                code = code + 1000;// Ensure the random number is a 4-digit number
             }
         } else if (length == 6)
         {
-            code = new Random().nextInt(999999);//生成随机数，最大为999999
+            code = new Random().nextInt(999999);// Generate a random number, maximum 999999
             if (code < 100000)
             {
-                code = code + 100000;//保证随机数为6位数字
+                code = code + 100000;// Ensure the random number is a 6-digit number
             }
         } else
         {
-            throw new RuntimeException("只能生成4位或6位数字验证码");
+            throw new RuntimeException("Only 4 or 6 digit verification codes can be generated");
         }
         return code;
     }
 
     /**
-     * 随机生成指定长度字符串验证码
+     * Generate a random string verification code of specified length
      *
-     * @param length 长度
+     * @param length Length
      * @return
      */
     public static String generateValidateCode4String(int length)

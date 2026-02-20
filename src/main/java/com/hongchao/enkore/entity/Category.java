@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 分类
+ * Category
  */
 @Data
 public class Category implements Serializable
@@ -22,32 +22,32 @@ public class Category implements Serializable
 
     private Long id;
 
-    //类型 1 菜品分类 2 套餐分类
+    //Type 1: dish category, 2: setmeal category
     private Integer type;
 
-    //分类名称
+    //Category name
     private String name;
 
-    //顺序
+    //Sort order
     private Integer sort;
 
-    //创建时间
+    //Creation time
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    //更新时间
+    //Update time
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    //创建人
+    //Creator
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 
-    //修改人
+    //Updater
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
-    //是否删除
+    //Is deleted
     private Integer isDeleted;
 
 }

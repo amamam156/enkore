@@ -37,6 +37,9 @@
     <el-button type="primary" :class="{btnSubmit:1===1,btnNoEmail:!form.email,btnEmail:form.email}" @click="btnLogin">
         Login
     </el-button>
+    <div v-if="testCode" style="text-align: center; margin-top: 10px; color: green; font-size: 24px; font-weight: bold;">
+        Test code: {{ testCode }}
+    </div>
 </div>
 <!-- Development environment version, including helpful command line warnings -->
 <script src="../../backend/plugins/vue/vue.js"></script>
@@ -59,7 +62,8 @@
                     code: ''
                 },
                 msgFlag: false,
-                loading: false
+                loading: false,
+                testCode: '' // Added for displaying test code
             }
         },
         computed: {},
@@ -73,8 +77,21 @@
                 const regex = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
                 if (regex.test(this.form.email)) {
                     this.msgFlag = false
-                    //this.form.code = (Math.random()*1000000).toFixed(0)
-                    sendMsgApi({email: this.form.email})
+                    // For testing purposes, simulate code generation
+                    // const simulatedCode = (Math.random()*1000000).toFixed(0); // No longer needed
+                    // this.testCode = simulatedCode; // No longer needed
+                    // this.form.code = simulatedCode; // No longer needed
+                    sendMsgApi({email: this.form.email}).then(res => {
+                        if (res.code === 1) { // Assuming res.code === 1 means success
+                            this.testCode = res.data; // Get the actual code from backend response
+                            this.form.code = res.data; // Set the form's code to the actual code
+                            console.log('Verification code sent:', res.data);
+                        } else {
+                            this.$notify({type: 'warning', message: res.msg});
+                        }
+                    }).catch(error => {
+                        console.error('Error sending verification code:', error);
+                    });
                 } else {
                     this.msgFlag = true
                 }

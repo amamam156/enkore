@@ -71,11 +71,15 @@ public class ShoppingCartController
     public R<List<ShoppingCart>> list()
     {
         log.info("Preview shopping cart...");
+        Long currentUserId = BaseContext.getCurrentId();
+        log.info("Current user ID: {}", currentUserId);
+
         LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(ShoppingCart::getUserId, BaseContext.getCurrentId());
+        queryWrapper.eq(ShoppingCart::getUserId, currentUserId);
         queryWrapper.orderByAsc(ShoppingCart::getCreateTime);
 
         List<ShoppingCart> list = shoppingCartService.list(queryWrapper);
+        log.info("Shopping cart list: {}", list);
 
         return R.success(list);
     }

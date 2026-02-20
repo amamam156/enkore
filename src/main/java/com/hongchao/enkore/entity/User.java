@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 /**
- * 用户信息
+ * User information
  */
 @Data
 public class User implements Serializable
@@ -21,25 +21,25 @@ public class User implements Serializable
 
     private Long id;
 
-    //姓名
+    //Name
     private String name;
 
-    //电子邮箱
+    //Email
     private String email;
 
-    //手机号码
+    //Phone number
     private String phone;
 
-    //性别 0 女 1 男
+    //Gender 0 Female 1 Male
     private String sex;
 
-    //身份证号
+    //ID number
     private String idNumber;
 
-    //头像
+    //Avatar
     private String avatar;
 
-    //状态 0:禁用，1:正常
+    //Status 0: Disabled, 1: Normal
     private Integer status;
 
 }

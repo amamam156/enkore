@@ -8,18 +8,18 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 
 /**
- * 短信发送工具类
+ * SMS sending utility class
  */
 public class SMSUtils
 {
 
     /**
-     * 发送短信
+     * Send SMS
      *
-     * @param signName     签名
-     * @param templateCode 模板
-     * @param phoneNumbers 手机号
-     * @param param        参数
+     * @param signName     Signature
+     * @param templateCode Template
+     * @param phoneNumbers Phone number
+     * @param param        Parameters
      */
     public static void sendMessage(String signName, String templateCode, String phoneNumbers, String param)
     {
@@ -35,7 +35,7 @@ public class SMSUtils
         try
         {
             SendSmsResponse response = client.getAcsResponse(request);
-            System.out.println("短信发送成功");
+            System.out.println("SMS sent successfully");
         } catch (ClientException e)
         {
             e.printStackTrace();

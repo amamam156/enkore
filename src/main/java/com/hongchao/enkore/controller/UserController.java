@@ -14,9 +14,11 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.annotation.Resources;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
@@ -64,7 +66,10 @@ public class UserController
             {
                 // javaMailSender.send(simpleMailMessage);
                 log.info(code);
-                return R.success("verification code sent successful");
+                // Modify to return the generated code for testing purposes
+                R<String> response = R.success(code); // Capture the response object
+                log.info("Sending response: {}", response); // Log the full response object
+                return response; // Return the response
             } catch (MailException e)
             {
                 e.printStackTrace();
@@ -75,12 +80,12 @@ public class UserController
 
     }
 
-    //Mobile application login terminal
-    @PostMapping("/login")
+    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     // Use map here to receive the value passed by the front end
-    private R<User> login(@RequestBody Map map, HttpSession session)
+    private R<User> login(@RequestBody Map map, HttpSession session, HttpServletRequest request)
     {
-        log.info(map.toString());
+        log.info("Incoming request to /user/login. Method: {}", request.getMethod());
+        log.info("Incoming request to /user/login. Body: {}", map.toString());
 
         //Determine whether the current mobile phone number is recorded in the database query. If there is no record, it means that it is a new user, and then the mobile phone number will be automatically registered.
         String email = map.get("email").toString();
@@ -98,9 +103,10 @@ public class UserController
             {
                 //Determine whether the user corresponding to the current mobile phone number is a new user. If it is a new user, the registration will be automatically completed.
                 user = new User();
-                user.setEmail(email);
-                user.setStatus(1);
-                userService.save(user);
+                        user.setEmail(email);
+                        user.setStatus(1);
+                        user.setPhone("TEMP_" + System.currentTimeMillis()); // Generate a unique placeholder for phone
+                        userService.save(user);
             }
             // Here we store the user, which we will use for subsequent operations. The interceptor will determine whether the user is logged in, so we store this in.
             session.setAttribute("user", user.getId());

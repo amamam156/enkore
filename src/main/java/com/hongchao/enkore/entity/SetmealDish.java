@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 套餐菜品关系
+ * Setmeal Dish Relationship
  */
 @Data
 public class SetmealDish implements Serializable
@@ -19,22 +19,22 @@ public class SetmealDish implements Serializable
 
     private Long id;
 
-    //套餐id
+    //Setmeal ID
     private Long setmealId;
 
-    //菜品id
+    //Dish ID
     private Long dishId;
 
-    //菜品名称 （冗余字段）
+    //Dish name (redundant field)
     private String name;
 
-    //菜品原价
+    //Original price of the dish
     private BigDecimal price;
 
-    //份数
+    //Number of copies
     private Integer copies;
 
-    //排序
+    //Sort order
     private Integer sort;
 
     @TableField(fill = FieldFill.INSERT)
@@ -49,6 +49,6 @@ public class SetmealDish implements Serializable
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
-    //是否删除
+    //Is deleted
     private Integer isDeleted;
 }

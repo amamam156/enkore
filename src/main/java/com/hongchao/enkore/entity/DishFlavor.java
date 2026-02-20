@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 菜品口味
+ * Dish Flavor
  */
 @Data
 public class DishFlavor implements Serializable
@@ -20,13 +20,13 @@ public class DishFlavor implements Serializable
 
     private Long id;
 
-    //菜品id
+    //Dish ID
     private Long dishId;
 
-    //口味名称
+    //Flavor name
     private String name;
 
-    //口味数据list
+    //Flavor data list
     private String value;
 
     @TableField(fill = FieldFill.INSERT)
@@ -41,7 +41,7 @@ public class DishFlavor implements Serializable
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
-    //是否删除
+    //Is deleted
     private Integer isDeleted;
 
 }

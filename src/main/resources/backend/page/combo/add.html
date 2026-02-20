@@ -230,7 +230,7 @@
                                         <el-table-column prop="name" label="Name" width="180"
                                                          align="center"></el-table-column>
                                         <el-table-column prop="price" label="Original price" width="180">
-                                            <template slot-scope="scope"> {{ Number(scope.row.price) / 100 }}</template>
+                                            <template slot-scope="scope"> {{ Number(scope.row.price) }}</template>
                                         </el-table-column>
                                         <el-table-column prop="address" label="Number" align="center">
                                             <template slot-scope="scope">
@@ -349,7 +349,7 @@
                                     <div class="item">
                                         <span style="flex: 3;text-align: left">{{ item.dishName }}</span>
                                         <span>{{ item.status == 0 ? 'Stop sale' : 'On sale' }}</span>
-                                        <span>{{ Number(item.price) / 100 }}</span>
+                                        <span>{{ Number(item.price) }}</span>
                                     </div>
                                 </el-checkbox>
                             </div>
@@ -368,7 +368,7 @@
                             class="item"
                     >
                         <span>{{ item.dishName }}</span>
-                        <span class="price">$ {{ Number(item.price) / 100 }} </span>
+                        <span class="price">$ {{ Number(item.price) }} </span>
                         <span
                                 class="del"
                                 @click="delCheck(ind)"
@@ -499,7 +499,7 @@
                     if (String(res.code) === '1') {
                         this.ruleForm = res.data
                         this.ruleForm.status = res.data.status === '1'
-                        this.ruleForm.price = res.data.price / 100
+                        this.ruleForm.price = res.data.price
                         this.imageUrl = `/common/download?name=${res.data.image}`
                         this.checkList = res.data.setmealDishes
                         this.dishTable = res.data.setmealDishes

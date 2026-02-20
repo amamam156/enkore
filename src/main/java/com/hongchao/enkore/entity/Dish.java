@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 菜品
+ * Dish
  */
 @Data
 public class Dish implements Serializable
@@ -21,28 +21,28 @@ public class Dish implements Serializable
 
     private Long id;
 
-    //菜品名称
+    //Dish name
     private String name;
 
-    //菜品分类id
+    //Dish category ID
     private Long categoryId;
 
-    //菜品价格
+    //Dish price
     private BigDecimal price;
 
-    //商品码
+    //Product code
     private String code;
 
-    //图片
+    //Image
     private String image;
 
-    //描述信息
+    //Description
     private String description;
 
-    //0 停售 1 起售
+    //0: stopped selling, 1: selling
     private Integer status;
 
-    //顺序
+    //Order
     private Integer sort;
 
     @TableField(fill = FieldFill.INSERT)
@@ -57,7 +57,7 @@ public class Dish implements Serializable
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
-    //是否删除
+    //Is deleted
     private Integer isDeleted;
 
 }
