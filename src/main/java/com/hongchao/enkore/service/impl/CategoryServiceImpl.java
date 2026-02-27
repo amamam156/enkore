@@ -33,7 +33,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         LambdaQueryWrapper<Dish> dishLambdaQueryWrapper = new LambdaQueryWrapper<>();
         // search by id
         dishLambdaQueryWrapper.eq(Dish::getCategoryId, id);
-        int count = dishService.count(dishLambdaQueryWrapper);
+        long count = dishService.count(dishLambdaQueryWrapper);
         // check relative
         if (count > 0)
         {
@@ -46,7 +46,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         LambdaQueryWrapper<Setmeal> setmealLambdaQueryWrapper = new LambdaQueryWrapper<>();
         // search by id
         setmealLambdaQueryWrapper.eq(Setmeal::getCategoryId, id);
-        int count2 = setmealService.count(setmealLambdaQueryWrapper);
+        long count2 = setmealService.count(setmealLambdaQueryWrapper);
         // check relative
         if (count2 > 0)
         {

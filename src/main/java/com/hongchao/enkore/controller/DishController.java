@@ -46,7 +46,7 @@ public class DishController
     }
 
     @GetMapping("/page")
-    public R<Page> page(int page, int pageSize, String name)
+    public R<Page<DishDto>> page(int page, int pageSize, String name)
     {
         // create object
         Page<Dish> pageInfo = new Page<>(page, pageSize);
@@ -72,16 +72,17 @@ public class DishController
         {
             DishDto dishDto = new DishDto();
 
-            BeanUtils.copyProperties(item, dishDto);
+            if (item != null) {
+                BeanUtils.copyProperties(item, dishDto);
+                Long categoryId = item.getCategoryId(); // category id
 
-            Long categoryId = item.getCategoryId(); // category id
+                Category category = categoryService.getById(categoryId);
 
-            Category category = categoryService.getById(categoryId);
-
-            if (category != null)
-            {
-                String categoryName = category.getName();
-                dishDto.setCategoryName(categoryName);
+                if (category != null)
+                {
+                    String categoryName = category.getName();
+                    dishDto.setCategoryName(categoryName);
+                }
             }
             return dishDto;
         }).collect(Collectors.toList());
@@ -130,25 +131,26 @@ public class DishController
         {
             DishDto dishDto = new DishDto();
 
-            BeanUtils.copyProperties(item, dishDto);
+            if (item != null) {
+                BeanUtils.copyProperties(item, dishDto);
+                Long categoryId = item.getCategoryId(); // category id
 
-            Long categoryId = item.getCategoryId(); // category id
+                Category category = categoryService.getById(categoryId);
 
-            Category category = categoryService.getById(categoryId);
+                if (category != null)
+                {
+                    String categoryName = category.getName();
+                    dishDto.setCategoryName(categoryName);
+                }
 
-            if (category != null)
-            {
-                String categoryName = category.getName();
-                dishDto.setCategoryName(categoryName);
+                //
+                Long dishId = item.getId();
+                LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+                lambdaQueryWrapper.eq(DishFlavor::getDishId, dishId);
+
+                List<DishFlavor> dishFlavorsList = dishFlavorService.list(lambdaQueryWrapper);
+                dishDto.setFlavors(dishFlavorsList);
             }
-
-            //
-            Long dishId = item.getId();
-            LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-            lambdaQueryWrapper.eq(DishFlavor::getDishId, dishId);
-
-            List<DishFlavor> dishFlavorsList = dishFlavorService.list(lambdaQueryWrapper);
-            dishDto.setFlavors(dishFlavorsList);
 
             return dishDto;
         }).collect(Collectors.toList());

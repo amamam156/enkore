@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.hongchao.enkore.common.BaseContext;
 import com.hongchao.enkore.common.R;
 import com.hongchao.enkore.entity.ShoppingCart;
-import com.hongchao.enkore.mapper.ShoppingCartMapper;
+
 import com.hongchao.enkore.service.ShoppingCartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

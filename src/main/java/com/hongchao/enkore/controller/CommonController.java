@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.util.UUID;
 
@@ -34,7 +34,10 @@ public class CommonController
 
         // original file name
         String originalFileName = file.getOriginalFilename();
-        String suffix = originalFileName.substring(originalFileName.lastIndexOf("."));
+        String suffix = "";
+        if (originalFileName != null) {
+            suffix = originalFileName.substring(originalFileName.lastIndexOf("."));
+        }
 
         //UUID
         String fileName = UUID.randomUUID().toString() + suffix;

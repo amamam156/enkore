@@ -32,7 +32,7 @@ public class CategoryController
     // Paging query
 
     @GetMapping("/page")
-    public R<Page> page(int page, int pageSize)
+    public R<Page<Category>> page(int page, int pageSize)
     {
         // paging creator
         Page<Category> pageInfo = new Page<>(page, pageSize);

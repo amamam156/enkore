@@ -1,7 +1,7 @@
 package com.hongchao.enkore.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 import com.hongchao.enkore.common.R;
 import com.hongchao.enkore.entity.User;
 import com.hongchao.enkore.service.UserService;
@@ -12,15 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.annotation.Resource;
-import javax.annotation.Resources;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.*;
+
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/user")
@@ -30,8 +30,7 @@ public class UserController
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private JavaMailSender javaMailSender;
+
 
     @Value("${spring.mail.username}")
     String from;
@@ -53,9 +52,9 @@ public class UserController
             //Set the email sender
             simpleMailMessage.setFrom(from);
             //Set email recipients
-            simpleMailMessage.setTo(email);
+            simpleMailMessage.setTo(Objects.requireNonNull(email));
             //Set a commemorative theme
-            simpleMailMessage.setSubject("Login verification code");
+            simpleMailMessage.setSubject((String) "Login verification code");
             //Set up the email solicitation
             String text = "[Enkore Karaoke] Your verification code is" + code + "Do not disclose";
             simpleMailMessage.setText(text);
@@ -82,14 +81,17 @@ public class UserController
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     // Use map here to receive the value passed by the front end
-    private R<User> login(@RequestBody Map map, HttpSession session, HttpServletRequest request)
+    private R<User> login(@RequestBody Map<String, String> map, HttpSession session, HttpServletRequest request)
     {
         log.info("Incoming request to /user/login. Method: {}", request.getMethod());
         log.info("Incoming request to /user/login. Body: {}", map.toString());
 
         //Determine whether the current mobile phone number is recorded in the database query. If there is no record, it means that it is a new user, and then the mobile phone number will be automatically registered.
-        String email = map.get("email").toString();
-        String code = map.get("code").toString();
+        String email = (String) map.get("email");
+        String code = (String) map.get("code");
+        if (email == null || code == null) {
+            return R.error("Email or code cannot be null");
+        }
         //Get the verification code corresponding to the phone field in the session
         Object codeInSession = session.getAttribute(email);
         // Compare below

@@ -40,6 +40,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
         // dish flavor
         List<DishFlavor> flavors = dishDto.getFlavors();
+        if (flavors == null) {
+            flavors = new ArrayList<>();
+        }
         flavors = flavors.stream().map((item) ->
         {
             item.setDishId(dishId);
@@ -58,13 +61,15 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         Dish dish = this.getById(id);
 
         DishDto dishDto = new DishDto();
-        BeanUtils.copyProperties(dish, dishDto);
+        if (dish != null) {
+            BeanUtils.copyProperties(dish, dishDto);
 
-        // get flavor by dish
-        LambdaQueryWrapper<DishFlavor> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(DishFlavor::getDishId, dish.getId());
-        List<DishFlavor> flavors = dishFlavorService.list(queryWrapper);
-        dishDto.setFlavors(flavors);
+            // get flavor by dish
+            LambdaQueryWrapper<DishFlavor> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(DishFlavor::getDishId, dish.getId());
+            List<DishFlavor> flavors = dishFlavorService.list(queryWrapper);
+            dishDto.setFlavors(flavors);
+        }
 
         return dishDto;
     }
@@ -85,6 +90,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
         // insert
         List<DishFlavor> flavors = dishDto.getFlavors();
+        if (flavors == null) {
+            flavors = new ArrayList<>();
+        }
 
         flavors = flavors.stream().map((item) ->
         {
@@ -104,7 +112,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         queryWrapper.in(Dish::getId, ids);
         queryWrapper.eq(Dish::getStatus, 1);
 
-        int count = this.count(queryWrapper);
+        long count = this.count(queryWrapper);
         // not delete
         if (count > 0)
         {

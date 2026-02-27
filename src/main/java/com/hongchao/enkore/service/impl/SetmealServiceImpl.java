@@ -3,16 +3,16 @@ package com.hongchao.enkore.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hongchao.enkore.common.CustomException;
-import com.hongchao.enkore.common.R;
+
 import com.hongchao.enkore.dto.SetmealDto;
-import com.hongchao.enkore.entity.Dish;
+
 import com.hongchao.enkore.entity.Setmeal;
 import com.hongchao.enkore.entity.SetmealDish;
 import com.hongchao.enkore.mapper.SetmealMapper;
 import com.hongchao.enkore.service.SetmealDishService;
 import com.hongchao.enkore.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.compiler.ast.Stmnt;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +65,7 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
         queryWrapper.in(Setmeal::getId, ids);
         queryWrapper.eq(Setmeal::getStatus, 1);
 
-        int count = this.count(queryWrapper);
+        long count = this.count(queryWrapper);
         // not delete
         if (count > 0)
         {

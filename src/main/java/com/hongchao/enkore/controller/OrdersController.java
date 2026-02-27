@@ -39,7 +39,7 @@ public class OrdersController
     }
 
     @GetMapping("/userPage")
-    public R<Page> page(int page, int pageSize)
+    public R<Page<OrdersDto>> page(int page, int pageSize)
     {
 
         // get current id
@@ -48,7 +48,7 @@ public class OrdersController
         Page<OrdersDto> ordersDtoPage = new Page<>(page, pageSize);
 
         // create filter
-        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper();
+        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();
 
         // Add filter criteria
         queryWrapper.eq(userId != null, Orders::getUserId, userId);
@@ -78,7 +78,7 @@ public class OrdersController
 
 
     @GetMapping("/page")
-    public R<Page> page(int page, int pageSize, Long number, String starTime, String endTime) {
+    public R<Page<OrdersDto>> page(int page, int pageSize, Long number, String starTime, String endTime) {
         // get id
         Page<Orders> pageInfo = new Page<>(page, pageSize);
         Page<OrdersDto> ordersDtoPage = new Page<>(page, pageSize);

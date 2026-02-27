@@ -6,13 +6,17 @@ import com.hongchao.enkore.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
+
 
 // check if login
 @WebFilter(filterName = "loginCheckFilter", urlPatterns = "/*")
@@ -75,7 +79,8 @@ public class LoginCheckzfilter implements Filter
 
         log.info("User not login");
         // not login
-        response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
+        String errorMessage = "NOTLOGIN";
+        response.getWriter().write(JSON.toJSONString(R.error(errorMessage)));
         return;
 
     }
@@ -83,9 +88,12 @@ public class LoginCheckzfilter implements Filter
     // when path match check if pass
     public boolean check(String[] urls, String requestURI)
     {
+        if (requestURI == null) {
+            return false; // A null requestURI cannot match any URL
+        }
         for (String url : urls)
         {
-            boolean match = PATH_MATCHER.match(url, requestURI);
+            boolean match = PATH_MATCHER.match(java.util.Objects.requireNonNull(url), java.util.Objects.requireNonNull(requestURI));
             if (match)
             {
                 return true;

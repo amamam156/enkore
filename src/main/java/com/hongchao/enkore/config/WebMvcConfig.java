@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -16,7 +17,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport
 {
     // Set static resource mapping
     @Override
-    protected void addResourceHandlers(ResourceHandlerRegistry registry)
+    protected void addResourceHandlers(@NonNull ResourceHandlerRegistry registry)
     {
 
         log.info("Start setting static resource mapping...");
@@ -26,7 +27,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport
 
     // extent MVC format message to Message Converters
     @Override
-    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters)
+    protected void extendMessageConverters(@NonNull List<HttpMessageConverter<?>> converters)
     {
         log.info("Extent Message Converter...");
         // create object

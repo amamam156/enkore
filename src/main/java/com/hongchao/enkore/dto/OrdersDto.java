@@ -3,10 +3,11 @@ package com.hongchao.enkore.dto;
 import com.hongchao.enkore.entity.OrderDetail;
 import com.hongchao.enkore.entity.Orders;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@Data
+@Data @EqualsAndHashCode(callSuper=false)
 public class OrdersDto extends Orders
 {
     private String userName;

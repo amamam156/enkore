@@ -1,7 +1,7 @@
 package com.hongchao.enkore.common;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler
     public R<String> excetionHandler(CustomException ex)
     {
         log.error(ex.getMessage());
-
-        return R.error(ex.getMessage());
+        String errorMessage = ex.getMessage();
+        return R.error(errorMessage != null ? errorMessage : "Unknown error occurred");
     }
 }

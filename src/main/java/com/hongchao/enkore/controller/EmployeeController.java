@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.apache.commons.lang.StringUtils;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
-import java.time.LocalDateTime;
+import jakarta.servlet.http.HttpServletRequest;
+
 
 @Slf4j
 @RestController
@@ -30,7 +31,7 @@ public class EmployeeController
 
         // get username and password
         String password = employee.getPassword();
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        password = DigestUtils.md5DigestAsHex(Objects.requireNonNull(password.getBytes(StandardCharsets.UTF_8)));
 
         // get password form database
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
@@ -75,7 +76,7 @@ public class EmployeeController
         log.info("Add employee, employee information: {}", employee.toString());
 
         // set default password (MD5)
-        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        employee.setPassword(DigestUtils.md5DigestAsHex(Objects.requireNonNull("123456".getBytes(StandardCharsets.UTF_8))));
 
         // employee.setCreateTime(LocalDateTime.now());
         // employee.setUpdateTime(LocalDateTime.now());
@@ -92,15 +93,15 @@ public class EmployeeController
     }
 
     @GetMapping("/page")
-    public R<Page> page(int page, int pageSize, String name)
+    public R<Page<Employee>> page(int page, int pageSize, String name)
     {
         log.info("page = {}, pageSize = {}, name = {}", page, pageSize, name);
 
         // page creator
-        Page pageInfo = new Page(page, pageSize);
+        Page<Employee> pageInfo = new Page<>(page, pageSize);
 
         // create filter
-        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper();
+        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
 
         // Add filter criteria
         queryWrapper.like(StringUtils.isNotBlank(name), Employee::getName, name);

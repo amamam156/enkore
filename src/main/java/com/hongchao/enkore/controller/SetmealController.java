@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
+
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,7 +46,7 @@ public class SetmealController
     }
 
     @GetMapping("/page")
-    public R<Page> page(int page, int pageSize, String name)
+    public R<Page<SetmealDto>> page(int page, int pageSize, String name)
     {
         // create object
         Page<Setmeal> pageInfo = new Page<>(page, pageSize);
@@ -72,16 +72,17 @@ public class SetmealController
         {
             SetmealDto setmealDto = new SetmealDto();
 
-            BeanUtils.copyProperties(item, setmealDto);
+            if (item != null) {
+                BeanUtils.copyProperties(item, setmealDto);
+                Long categoryId = item.getCategoryId(); // category id
 
-            Long categoryId = item.getCategoryId(); // category id
+                Category category = categoryService.getById(categoryId);
 
-            Category category = categoryService.getById(categoryId);
-
-            if (category != null)
-            {
-                String categoryName = category.getName();
-                setmealDto.setCategoryName(categoryName);
+                if (category != null)
+                {
+                    String categoryName = category.getName();
+                    setmealDto.setCategoryName(categoryName);
+                }
             }
             return setmealDto;
         }).collect(Collectors.toList());
@@ -139,7 +140,9 @@ public class SetmealController
         Setmeal setmeal = setmealService.getById(id);
         SetmealDto setmealDto = new SetmealDto();
         // copy to Dto
-        BeanUtils.copyProperties(setmeal, setmealDto);
+        if (setmeal != null) {
+            BeanUtils.copyProperties(setmeal, setmealDto);
+        }
 
         LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SetmealDish::getSetmealId, id);

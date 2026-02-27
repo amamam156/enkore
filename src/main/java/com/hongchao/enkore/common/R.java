@@ -5,6 +5,8 @@ import lombok.Data;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.lang.NonNull;
+
 @Data
 public class R<T>
 {
@@ -15,7 +17,7 @@ public class R<T>
 
     private T data; //data
 
-    private Map map = new HashMap(); //dynamic data
+    private Map<String, Object> map = new HashMap<>(); //dynamic data
 
     public static <T> R<T> success(T object)
     {
@@ -25,9 +27,9 @@ public class R<T>
         return r;
     }
 
-    public static <T> R<T> error(String msg)
+    public static <T> R<T> error(@NonNull String msg)
     {
-        R r = new R();
+        R<T> r = new R<>();
         r.msg = msg;
         r.code = 0;
         return r;
