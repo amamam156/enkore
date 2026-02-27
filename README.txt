@@ -1,52 +1,88 @@
-project folder:
-amamam156-enkore/
+# Enkore Karaoke Digital Operations Management System
 
+> **Bridging the Ultimate Entertainment Experience with Efficient Backend Management**
 
-Brief description of submitted files:
+This system utilizes a **"Dual-Core Drive"** architecture to seamlessly link the user journey with enterprise-level control through real-time data flow.
 
-/screenshots
-    - Screenshot of the program running
+---
 
-/src/main/java
-    - Backend source code
+## 🚀 System Overview
 
-/src/main/resources/backend
-    - Program backend resources
+![System Overview](screenshots/Show/1.jpg)
 
-/src/main/java/resources/front
-    - Program front resources
+---
 
+## 📱 Demand Side: Immersive User Journey
 
-project description:
+### 1. Seamless Access & Personalization Hub
+Reduces entry friction and enhances retention through streamlined verification and scenario-based management.
+- **Quick Login:** Minimalist verification to boost conversion rates.
+- **Smart Address Book:** Scenario-based tags (Home, Work, School) for precision delivery.
+- **Personal Center:** Centralized tracking of order history and preferences.
 
-enkore is a software product specially customized for catering companies (restaurants, hotels), including system management backend and mobile application.
-The system management backend is mainly provided for internal employees of catering companies to manage and maintain restaurant categories, dishes, packages, orders, employees, etc.
-The mobile application is mainly provided to consumers, who can browse dishes online, add shopping carts, place orders, etc.
+![Access & Personalization](screenshots/Show/2.jpg)
 
-Development environment:
+### 2. Immersive Ordering Experience
+- **Visual-First Design:** High-quality imagery designed to stimulate purchase desire.
+- **Deep Customization:** Supports fine-grained options such as "No Ice" or "Normal Temp."
+- **Efficient Navigation:** Sidebar category switching for fast browsing of rooms, snacks, and drinks.
 
-Environment (software): JDK + MySQL +IDEA + Git + Tomcat
-Technologies: Spring Boot, SSM, Mybatis Plus, Spring Security, Redis, Spring Cache, Swagger, Linux, ShardingJDBC, Nginx
+![Ordering Experience](screenshots/Show/3.jpg)
 
-duty description:
+### 3. Fast Checkout & Real-time Tracking
+- **Transparent Pricing:** Clear display of package details and total amounts.
+- **Instant Feedback:** Provides estimated arrival times immediately after order placement.
+- **Full-Link Tracking:** Real-time synchronization of preparation and delivery status to eliminate waiting anxiety.
 
-Responsible for the preparation of staff, categories, dishes, and set meal modules in the system management backend.
-Responsible for the development of mobile applications and implementing the SMS verification code login function.
-Develop the menu browsing function of mobile applications so that users can browse menu information conveniently.
-Implement the management function of user address book information in mobile applications to facilitate users to manage delivery addresses.
-Develop the shopping cart function of the mobile application so that users can easily add dishes to the shopping cart and manage orders.
-Implement the function of order submission in mobile applications to ensure that users can place orders successfully.
-Optimize the data display cache of mobile applications to improve system response speed and user experience.
-Responsible for database master-slave configuration and implementation of read-write separation to improve database performance and reliability.
-Implement the project interface API document generation function and use Swagger to generate clear interface documents.
+![Checkout](screenshots/Show/4.jpg)
+![Real-time Tracking](screenshots/Show/5.jpg)
 
-Technical Description:
+---
 
-Use Redis to cache high-frequency data, and use Spring Cache to optimize code to improve system performance and response speed.
-Use the Linux system for deployment throughout the development process, taking full advantage of the stability and security of the Linux system.
-Use Nginx to deploy front-end projects to achieve a front-end and back-end separation deployment method, improving the flexibility and maintainability of the system.
-Use Nginx to implement reverse proxy and load balancing to improve the concurrent processing capability and availability of the system.
-Use ShardingJDBC to separate database reading and writing and improve the reading and writing performance of the database.
-Use the Spring Security framework to develop permission modules and adopt the classic RBAC model for fine-grained permission management.
-Use YApi to achieve separate development of front-end and back-end, and use Swagger to generate interface API documents to improve team collaboration efficiency.
-Use Git for project version control and code management, and make full use of the branch function for project optimization and problem repair.
+## 💻 Supply Side: Enterprise-Grade Control
+
+### 1. Secure Access & Command Center
+A dedicated secure gateway for management with a modern, clean UI, ensuring operational efficiency and data safety.
+
+![Secure Access](screenshots/Show/6.jpg)
+
+### 2. Strategic Menu & Inventory Management
+- **Flexible Architecture:** Supports "Dish" and "Meal" types with 1-5 level custom sorting logic.
+- **Refined Control:** One-click stop-sale/bulk management with instant synchronization to the user app.
+- **Flavor Configuration:** Backend definition of all frontend customization options.
+
+![Menu Architecture](screenshots/Show/7.jpg)
+![Inventory Management](screenshots/Show/8.jpg)
+
+### 3. High-Ticket Package (AOV) Strategy
+- **Multi-SKU Aggregation:** Bundles complex items (e.g., Big Room + 24 units of beverage).
+- **One-Click Pricing:** Rapidly generates high-value packages (e.g., $499) to optimize revenue.
+
+![Package Strategy](screenshots/Show/9.jpg)
+
+### 4. Smart Order Command Center
+- **Panoramic View:** Real-time monitoring of customer info, order amounts, and current status.
+- **Multi-dimensional Filtering:** Quick retrieval by order number or specific time ranges.
+- **Closed-Loop Processing:** Seamlessly review details, update status, and sync to the User App.
+
+![Order Center](screenshots/Show/10.jpg)
+![Loop Processing](screenshots/Show/11.jpg)
+
+### 5. Team & Permission Governance
+- **Employee Profiles:** Detailed data entry for all team members.
+- **Account Control:** Instant activation or freezing of employee accounts.
+- **Role-Based Access:** Secure operational permissions based on team hierarchy.
+
+![Team Management](screenshots/Show/12.jpg)
+
+---
+
+## 🔄 Dual-Core Ecosystem
+
+The system ensures millisecond-level synchronization between "User Demand" and "Backend Supply," building a transparent, efficient, and controllable digital operation ecosystem.
+
+![Complete Ecosystem](screenshots/Show/13.jpg)
+
+---
+
+© 2024 Enkore Karaoke Digital Operations. All rights reserved.
