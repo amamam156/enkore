@@ -113,9 +113,3 @@ src/main/
     ├── front/            Mobile customer app
     └── application.yml   Runtime configuration
 ```
-
-## Current scope
-
-Enkore is a portfolio and learning project, not a production-ready ordering system. The repository does not currently include a database schema or seed dataset, automated tests, payment processing, deployment configuration, or a production AI integration.
-
-The screenshots show the intended application flow and the sample data used during development.
