@@ -3,8 +3,8 @@ server:
 spring:
   mail:
     host: smtp.gmail.com
-    username: thisisjohn1013@gmail.com
-    password:
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     port: 587
     properties:
       mail:
@@ -17,9 +17,9 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/enkore_karaoke?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-      username: root
-      password: 110120119
+      url: ${DB_URL:jdbc:mysql://localhost:3306/enkore_karaoke?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true}
+      username: ${DB_USERNAME:root}
+      password: ${DB_PASSWORD:}
 mybatis-plus:
   configuration:
     # When mapping entities or attributes, remove the underscores in the table names and field names in the database and map according to the camel case nomenclature.
@@ -29,4 +29,4 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
 enkore:
-  path: /Users/john/IdeaProjects/enkore/src/main/resources/imag/
+  path: ${ENKORE_UPLOAD_PATH:uploads/}

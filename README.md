@@ -1,88 +1,121 @@
-# Enkore Karaoke Digital Operations Management System
+# Enkore
 
-> **Bridging the Ultimate Entertainment Experience with Efficient Backend Management**
+Enkore is a full-stack ordering and operations demo for a karaoke venue. Customers can browse rooms, drinks, snacks, and bundles from a mobile web interface, while staff manage the menu, orders, and employees from a separate admin console.
 
-This system utilizes a **"Dual-Core Drive"** architecture to seamlessly link the user journey with enterprise-level control through real-time data flow.
+The project is built as a Spring Boot application with two static web clients: a Vant-based customer experience and an Element UI management dashboard.
 
----
+![Enkore AI operations overview](screenshots/ai/enkore-ai-operations.jpg)
 
-## 🚀 System Overview
+## What it includes
 
-![System Overview](screenshots/Show/1.jpg)
+### Customer experience
 
----
+- Mobile login and personal profile
+- Menu browsing by category
+- Dish options and flavor selection
+- Shopping cart and checkout
+- Address book
+- Order confirmation, history, and status tracking
 
-## 📱 Demand Side: Immersive User Journey
+| Sign in | Browse the menu | Choose preferences |
+| --- | --- | --- |
+| ![Customer login](screenshots/user/login.jpg) | ![Customer menu](screenshots/user/main.jpg) | ![Dish flavor selection](screenshots/user/dish_flavor.jpg) |
 
-### 1. Seamless Access & Personalization Hub
-Reduces entry friction and enhances retention through streamlined verification and scenario-based management.
-- **Quick Login:** Minimalist verification to boost conversion rates.
-- **Smart Address Book:** Scenario-based tags (Home, Work, School) for precision delivery.
-- **Personal Center:** Centralized tracking of order history and preferences.
+| Shopping cart | Delivery address | Review order |
+| --- | --- | --- |
+| ![Shopping cart](screenshots/user/Shoppingcart.jpg) | ![Address book](screenshots/user/address.jpg) | ![Order review](screenshots/user/order.jpg) |
 
-![Access & Personalization](screenshots/Show/2.jpg)
+| Order placed | Order history | Personal center |
+| --- | --- | --- |
+| ![Order success](screenshots/user/order_success.jpg) | ![Order history](screenshots/user/order_history.jpg) | ![Personal center](screenshots/user/personal%20center.jpg) |
 
-### 2. Immersive Ordering Experience
-- **Visual-First Design:** High-quality imagery designed to stimulate purchase desire.
-- **Deep Customization:** Supports fine-grained options such as "No Ice" or "Normal Temp."
-- **Efficient Navigation:** Sidebar category switching for fast browsing of rooms, snacks, and drinks.
+### Operations console
 
-![Ordering Experience](screenshots/Show/3.jpg)
+- Employee account management
+- Dish and category management
+- Meal and room bundle configuration
+- Menu item availability controls
+- Order search, detail view, and status updates
 
-### 3. Fast Checkout & Real-time Tracking
-- **Transparent Pricing:** Clear display of package details and total amounts.
-- **Instant Feedback:** Provides estimated arrival times immediately after order placement.
-- **Full-Link Tracking:** Real-time synchronization of preparation and delivery status to eliminate waiting anxiety.
+| Employee accounts | Categories |
+| --- | --- |
+| ![Employee management](screenshots/Backend/employee.png) | ![Category management](screenshots/Backend/category.png) |
 
-![Checkout](screenshots/Show/4.jpg)
-![Real-time Tracking](screenshots/Show/5.jpg)
+| Menu management | Package management |
+| --- | --- |
+| ![Dish management](screenshots/Backend/dish.png) | ![Meal management](screenshots/Backend/meal.png) |
 
----
+| Order operations | Order detail |
+| --- | --- |
+| ![Order management](screenshots/Backend/order.png) | ![Order detail](screenshots/Backend/order_detail.png) |
 
-## 💻 Supply Side: Enterprise-Grade Control
+## AI operations preview
 
-### 1. Secure Access & Command Center
-A dedicated secure gateway for management with a modern, clean UI, ensuring operational efficiency and data safety.
+The admin sidebar now includes an **AI Insights · Preview** workspace. It demonstrates how an operations assistant could summarize revenue, order activity, inventory risks, delivery delays, and menu opportunities.
 
-![Secure Access](screenshots/Show/6.jpg)
+The screenshot at the top of this README shows the complete preview inside the existing admin console, including the new navigation entry, daily metrics, operational observations, and chat panel.
 
-### 2. Strategic Menu & Inventory Management
-- **Flexible Architecture:** Supports "Dish" and "Meal" types with 1-5 level custom sorting logic.
-- **Refined Control:** One-click stop-sale/bulk management with instant synchronization to the user app.
-- **Flavor Configuration:** Backend definition of all frontend customization options.
+The preview includes a small question-and-answer interaction for presentation purposes. Its figures and responses are fixed local demo scenarios: no external model is connected and it does not make operational decisions.
 
-![Menu Architecture](screenshots/Show/7.jpg)
-![Inventory Management](screenshots/Show/8.jpg)
+A future implementation could replace the demo layer with live order and inventory aggregation, retrieval over store data, and a production AI provider.
 
-### 3. High-Ticket Package (AOV) Strategy
-- **Multi-SKU Aggregation:** Bundles complex items (e.g., Big Room + 24 units of beverage).
-- **One-Click Pricing:** Rapidly generates high-value packages (e.g., $499) to optimize revenue.
+## Tech stack
 
-![Package Strategy](screenshots/Show/9.jpg)
+| Layer | Technology |
+| --- | --- |
+| Application | Java 17, Spring Boot |
+| Data access | MyBatis-Plus, MySQL |
+| Admin UI | Vue 2, Element UI |
+| Customer UI | Vue 2, Vant |
+| Other integrations | Aliyun SMS, Spring Mail |
 
-### 4. Smart Order Command Center
-- **Panoramic View:** Real-time monitoring of customer info, order amounts, and current status.
-- **Multi-dimensional Filtering:** Quick retrieval by order number or specific time ranges.
-- **Closed-Loop Processing:** Seamlessly review details, update status, and sync to the User App.
+## Run locally
 
-![Order Center](screenshots/Show/10.jpg)
-![Loop Processing](screenshots/Show/11.jpg)
+### Requirements
 
-### 5. Team & Permission Governance
-- **Employee Profiles:** Detailed data entry for all team members.
-- **Account Control:** Instant activation or freezing of employee accounts.
-- **Role-Based Access:** Secure operational permissions based on team hierarchy.
+- Java 17
+- Maven 3.8+
+- MySQL 8
 
-![Team Management](screenshots/Show/12.jpg)
+Create a MySQL database named `enkore_karaoke`, then configure the application through environment variables:
 
----
+```bash
+export DB_URL='jdbc:mysql://localhost:3306/enkore_karaoke?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8'
+export DB_USERNAME='root'
+export DB_PASSWORD='your-password'
+export ENKORE_UPLOAD_PATH='./uploads/'
+```
 
-## 🔄 Dual-Core Ecosystem
+Start the application:
 
-The system ensures millisecond-level synchronization between "User Demand" and "Backend Supply," building a transparent, efficient, and controllable digital operation ecosystem.
+```bash
+mvn spring-boot:run
+```
 
-![Complete Ecosystem](screenshots/Show/13.jpg)
+Then open:
 
----
+- Customer app: [http://localhost:8080/front/index.html](http://localhost:8080/front/index.html)
+- Admin console: [http://localhost:8080/backend/index.html](http://localhost:8080/backend/index.html)
 
-© 2024 Enkore Karaoke Digital Operations. All rights reserved.
+Mail credentials are optional and can be supplied with `MAIL_USERNAME` and `MAIL_PASSWORD`.
+
+## Project structure
+
+```text
+src/main/
+├── java/com/hongchao/enkore/
+│   ├── controller/       HTTP endpoints
+│   ├── service/          Application services
+│   ├── mapper/           MyBatis-Plus data access
+│   └── entity/           Domain models
+└── resources/
+    ├── backend/          Staff operations console
+    ├── front/            Mobile customer app
+    └── application.yml   Runtime configuration
+```
+
+## Current scope
+
+Enkore is a portfolio and learning project, not a production-ready ordering system. The repository does not currently include a database schema or seed dataset, automated tests, payment processing, deployment configuration, or a production AI integration.
+
+The screenshots show the intended application flow and the sample data used during development.

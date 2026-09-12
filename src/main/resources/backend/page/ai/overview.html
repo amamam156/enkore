@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Operations Preview</title>
+    <link rel="stylesheet" href="../../styles/ai-overview.css">
+</head>
+<body>
+<main class="ai-page">
+    <header class="ai-header">
+        <div>
+            <div class="eyebrow"><span class="spark">✦</span> Enkore AI <span class="preview">Preview</span></div>
+            <h1>Good afternoon, John</h1>
+            <p>Here is a quick operational briefing based on today's sample orders and menu activity.</p>
+        </div>
+        <div class="demo-state"><span></span> Demo data · No model connected</div>
+    </header>
+
+    <section class="metrics" aria-label="Today's overview">
+        <article><div class="metric-icon purple">$</div><div><span>Revenue today</span><strong>$2,846</strong><small>↑ 12.4% from yesterday</small></div></article>
+        <article><div class="metric-icon blue">✓</div><div><span>Completed orders</span><strong>38</strong><small>6 currently in progress</small></div></article>
+        <article><div class="metric-icon amber">!</div><div><span>Needs attention</span><strong>3 items</strong><small>Inventory and delivery risks</small></div></article>
+        <article><div class="metric-icon green">⌁</div><div><span>Peak period</span><strong>8–10 PM</strong><small>Prepare staff before 7:30</small></div></article>
+    </section>
+
+    <div class="content-grid">
+        <section class="briefing panel">
+            <div class="panel-heading">
+                <div><span class="section-label">AI briefing</span><h2>What deserves your attention</h2></div>
+                <button id="refreshButton">↻ Refresh</button>
+            </div>
+            <div class="insight urgent">
+                <div class="insight-icon">!</div>
+                <div><div class="insight-meta"><span>High priority</span><small>Inventory</small></div><h3>Classic Lager may run out tonight</h3><p>Current stock covers roughly 11 more orders. Consider pausing the item or preparing a substitute before the evening peak.</p><button>Review menu item →</button></div>
+            </div>
+            <div class="insight opportunity">
+                <div class="insight-icon">↗</div>
+                <div><div class="insight-meta"><span>Opportunity</span><small>Menu performance</small></div><h3>Large-room bundles are converting well</h3><p>The Weekend Party Set appears in 31% of today's completed orders. Keep it prominent and pair it with the highest-margin snack add-on.</p><button>View package performance →</button></div>
+            </div>
+            <div class="insight watch">
+                <div class="insight-icon">◷</div>
+                <div><div class="insight-meta"><span>Watch</span><small>Fulfilment</small></div><h3>Two deliveries are taking longer than usual</h3><p>Orders #240918-032 and #240918-037 have been open for more than 25 minutes. Check with the floor team.</p><button>Open order queue →</button></div>
+            </div>
+        </section>
+
+        <aside class="assistant panel">
+            <div class="assistant-heading"><div class="ai-avatar">✦</div><div><h2>Ask Enkore AI</h2><p>Questions about orders, menu, and operations</p></div></div>
+            <div class="messages" id="messages">
+                <div class="message bot">I can summarize today's operation, point out risks, or help you decide what to check next.</div>
+            </div>
+            <div class="suggestions">
+                <button data-question="What should I check first?">What should I check first?</button>
+                <button data-question="Which items are selling well?">What is selling well?</button>
+                <button data-question="Show delivery risks">Show delivery risks</button>
+            </div>
+            <form id="chatForm" class="chat-input">
+                <input id="questionInput" aria-label="Ask Enkore AI" placeholder="Ask about today's operation..." autocomplete="off">
+                <button type="submit" aria-label="Send">➤</button>
+            </form>
+            <p class="disclaimer">Preview only. Responses are generated locally from fixed demo scenarios.</p>
+        </aside>
+    </div>
+</main>
+<script>
+    const messages = document.getElementById('messages');
+    const input = document.getElementById('questionInput');
+    const form = document.getElementById('chatForm');
+
+    function replyFor(question) {
+        const text = question.toLowerCase();
+        if (text.includes('sell') || text.includes('performance')) return 'The Weekend Party Set is the strongest sample performer today. I would keep it visible and review which add-on has the best margin.';
+        if (text.includes('deliver') || text.includes('risk')) return 'Start with orders #240918-032 and #240918-037. Both are beyond the usual preparation window and may need a floor-team check.';
+        return 'Check the low-stock lager first, then review the two delayed deliveries before the 8 PM peak begins.';
+    }
+
+    function ask(question) {
+        const value = question.trim();
+        if (!value) return;
+        messages.insertAdjacentHTML('beforeend', '<div class="message user"></div><div class="message bot"></div>');
+        const newMessages = messages.querySelectorAll('.message');
+        newMessages[newMessages.length - 2].textContent = value;
+        newMessages[newMessages.length - 1].textContent = replyFor(value);
+        messages.scrollTop = messages.scrollHeight;
+        input.value = '';
+    }
+
+    document.querySelectorAll('[data-question]').forEach((button) => button.addEventListener('click', () => ask(button.dataset.question)));
+    form.addEventListener('submit', (event) => { event.preventDefault(); ask(input.value); });
+    document.getElementById('refreshButton').addEventListener('click', (event) => {
+        event.currentTarget.textContent = '✓ Updated';
+        setTimeout(() => { event.currentTarget.textContent = '↻ Refresh'; }, 1200);
+    });
+</script>
+</body>
+</html>
